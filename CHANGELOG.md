@@ -4,7 +4,7 @@ All notable changes to the `kickoff-godot-3d` plugin.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
-## [1.0.0] - 2026-04-20
+## [0.1.0] - 2026-04-20
 
 ### Added
 - 초기 플러그인 릴리스. `.claude/` standalone 구조에서 Claude Code 플러그인 표준으로 전환.
