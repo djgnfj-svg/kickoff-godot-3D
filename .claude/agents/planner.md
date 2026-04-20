@@ -87,7 +87,24 @@ tools: ["*"]
 - product-spec 7항(프로젝트 설정)에 변경이 없으면 그대로 유지. 있으면 전체 7항 일관성 재검증.
 - Godot MCP capability matrix가 바뀌었으면 자동 검증 훅 재설계 가능성 고려.
 
+## Visual Gate 사용 (스프린트 시작 직전)
+
+Planner가 `S{M}-plan.md`를 쓰기 전, **Generator가 스스로 결정할 수 없는 고수준 공간·배치 결정**은 `visual-gate`로 사용자에게 묻는다. 스프린트 시작 후 중간에 방향이 흔들리면 비용이 크므로 **계획 단계 게이트가 가장 비용 대비 효과 큼**. **품질 기준은 `visual-gate/SKILL.md` "Quality Bar" 엄수** — scene-mockup 16:9 + 실제 장면 흉내 + 보조 도식 + HUD 예시 + 레퍼런스 게임 2~3개.
+
+**Planner의 호출 지점:**
+| 스프린트 | Gate 패턴 | 조건 |
+|---------|-----------|------|
+| M0 (Walking Skeleton) | `hud-layout` | 첫 HUD 기준 배치 (초기값, 후기 조정 허용) |
+| M1 (코어루프 닫힘) | `level-layout` | 첫 스테이지/보스룸 격자 배치 |
+| 구조 스프린트 | `scene-tree` | Player/Boss/World의 씬 분리 방식 A/B |
+| 카메라 스프린트 | `camera-distance` | product-spec에 카메라 거리가 미확정일 때 |
+
+**결과 저장:** `docs/build/F{N}/sprints/S{M}-visual-gates/<gate_id>/selected.md`. 해당 스프린트 `S{M}-plan.md`의 "고수준 결정" 섹션에 fragment 경로 링크.
+
+**Kickoff 결과 승계:** `docs/kickoff/_workspace/visual_gates/` 기존 게이트 결과가 있으면 먼저 읽고 승계. 같은 결정을 Build에서 다시 묻지 않는다.
+
 ## 참조 스킬 (게임 프로젝트)
 - `sprint-planning` — 게임 프로젝트 확장 절차 섹션
 - `godot-scene-handoff` — 핸드오프 7항 표준
 - `asset-pipeline` — 에셋 스프린트 정책
+- `visual-gate` — 스프린트 전 고수준 공간 결정 시각화

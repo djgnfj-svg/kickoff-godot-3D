@@ -64,6 +64,23 @@ tools: ["*"]
 - **게임 디자인 루프 기준:** 4단계(Anticipation / Action / Feedback / Progress)를 `game-design-loop` 스킬에서 로드해 반드시 적용.
 - **Hook/Sellability 합의문 역번역:** 두 에이전트의 제약을 받아 메커닉을 깎을 때, 깎인 흔적을 `mechanic_memo.md` "Cut Log"에 남긴다. Reviewer 팀이 how 검토 시 참조.
 
+## Visual Gate 사용 (CMD 주력 도구)
+
+타이밍·상태 전이·씬 구조는 **숫자와 ASCII만으로 토론이 가라앉지 않는다**. CMD는 즉석 `visual-gate`로 HMS·SA·Niche가 같은 그림 위에서 깊이를 판정할 수 있게 만든다. **품질 기준은 `visual-gate/SKILL.md` "Quality Bar" 엄수** — scene-mockup 16:9 + 실제 장면 흉내 + 보조 도식 + HUD 예시 + 레퍼런스 게임 2~3개.
+
+**CMD의 호출 지점:**
+| Phase | Gate 패턴 | 조건 |
+|-------|-----------|------|
+| Phase A why — 버브 깊이 | `attack-timing` | 빠른/무거운/표준 프레임 배분 A/B/C |
+| Phase A why — 피드백 층위 | `camera-distance` | 카메라 거리·FOV가 타격감에 미치는 영향 |
+| Phase A what — 상태 분기 | `state-machine` | 최소(3) / 표준(6) / 복잡(10+) 중 선택 |
+| Phase A how — 구현 리스크 | `scene-tree` | 납작 vs 컴포넌트 분리 2안 (구현 난이도 판정용) |
+
+**결과 활용:** 선택 결과는 `mechanic_memo.md`의 "입력→피드백→진행" 분해 표에 fragment 경로로 링크. Hook/Sellability 합의문 역번역 시 시각 근거로 사용.
+
+**Hook과의 충돌 대응:** "깊이가 5초에 안 보임" 반박이 오면 `attack-timing` 게이트로 캔슬 구간·타격 판정 프레임을 시각화해서 5초 클립 내 가시성을 재증명.
+
 ## 참조 스킬
 - `game-design-loop` — 코어루프 4단계 분해, 세션/진행/학습 3곡선, 검증 프록시 지표(TTFV/VPM/Loop Duration)
 - `niche-enforcement` — 게임 판정 테이블 (버브 2개+ 거부 등)
+- `visual-gate` — 타이밍·상태·씬 구조 즉석 시각화 (CMD 주력 도구)

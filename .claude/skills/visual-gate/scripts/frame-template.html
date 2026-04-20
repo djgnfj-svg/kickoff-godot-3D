@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Visual Gate · 3D 게임 (Godot 4)</title>
+  <style>
+    /*
+     * VISUAL GATE FRAME TEMPLATE (3D 게임 도메인)
+     *
+     * brainstorming frame 기반 + 게임 도메인 CSS 확장.
+     * 웹 전용 mock-* 클래스는 제거. 대신 scene-mockup/hud-slot/
+     * camera-diagram/timeline-bar/node-graph/silhouette/tile-grid/
+     * depth-axis 클래스 추가.
+     */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+
+    /* ===== THEME VARIABLES ===== */
+    :root {
+      --bg-primary: #f5f5f7;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #e5e5e7;
+      --border: #d1d1d6;
+      --text-primary: #1d1d1f;
+      --text-secondary: #86868b;
+      --text-tertiary: #aeaeb2;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --success: #34c759;
+      --warning: #ff9f0a;
+      --error: #ff3b30;
+      --selected-bg: #e8f4fd;
+      --selected-border: #0071e3;
+      --scene-bg: #111114;
+      --scene-ink: #e8e8ea;
+      --scene-grid: rgba(255,255,255,0.06);
+      --scene-accent: #ff7043;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1d1d1f;
+        --bg-secondary: #2d2d2f;
+        --bg-tertiary: #3d3d3f;
+        --border: #424245;
+        --text-primary: #f5f5f7;
+        --text-secondary: #86868b;
+        --text-tertiary: #636366;
+        --accent: #0a84ff;
+        --accent-hover: #409cff;
+        --selected-bg: rgba(10, 132, 255, 0.15);
+        --selected-border: #0a84ff;
+      }
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* ===== FRAME STRUCTURE ===== */
+    .header {
+      background: var(--bg-secondary);
+      padding: 0.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .header h1 { font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); }
+    .header .status { font-size: 0.7rem; color: var(--success); display: flex; align-items: center; gap: 0.4rem; }
+    .header .status::before { content: ''; width: 6px; height: 6px; background: var(--success); border-radius: 50%; }
+
+    .main { flex: 1; overflow-y: auto; }
+    #claude-content { padding: 2rem; min-height: 100%; }
+
+    .indicator-bar {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 0.5rem 1.5rem;
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .indicator-bar span { font-size: 0.75rem; color: var(--text-secondary); }
+    .indicator-bar .selected-text { color: var(--accent); font-weight: 500; }
+
+    /* ===== TYPOGRAPHY ===== */
+    h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; }
+    h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem; }
+    .subtitle { color: var(--text-secondary); margin-bottom: 1.5rem; }
+    .section { margin-bottom: 2rem; }
+    .label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+
+    /* ===== OPTIONS (A/B/C 선택) ===== */
+    .options { display: flex; flex-direction: column; gap: 0.75rem; }
+    .option {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .option:hover { border-color: var(--accent); }
+    .option.selected { background: var(--selected-bg); border-color: var(--selected-border); }
+    .option .letter {
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      width: 1.75rem; height: 1.75rem;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 0.85rem; flex-shrink: 0;
+    }
+    .option.selected .letter { background: var(--accent); color: white; }
+    .option .content { flex: 1; }
+    .option .content h3 { font-size: 0.95rem; margin-bottom: 0.15rem; }
+    .option .content p { color: var(--text-secondary); font-size: 0.85rem; margin: 0; }
+
+    /* ===== CARDS (썸네일 그리드) ===== */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .card.selected { border-color: var(--selected-border); border-width: 2px; }
+    .card-image { background: var(--bg-tertiary); aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .card-body { padding: 1rem; }
+    .card-body h3 { margin-bottom: 0.25rem; }
+    .card-body p { color: var(--text-secondary); font-size: 0.85rem; }
+
+    /* ===== MOCKUP CONTAINER ===== */
+    .mockup {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .mockup-header {
+      background: var(--bg-tertiary);
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border);
+    }
+    .mockup-body { padding: 1.5rem; }
+
+    /* ===== SPLIT VIEW (side-by-side) ===== */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 700px) { .split { grid-template-columns: 1fr; } }
+
+    /* ===== PROS/CONS ===== */
+    .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    .pros, .cons { background: var(--bg-secondary); border-radius: 8px; padding: 1rem; }
+    .pros h4 { color: var(--success); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .cons h4 { color: var(--error); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .pros ul, .cons ul { margin-left: 1.25rem; font-size: 0.85rem; color: var(--text-secondary); }
+    .pros li, .cons li { margin-bottom: 0.25rem; }
+
+    /* ===== PLACEHOLDER ===== */
+    .placeholder {
+      background: var(--bg-tertiary);
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-tertiary);
+    }
+
+    /* =====================================================
+     * 게임 도메인 CSS (GAME-SPECIFIC)
+     * ===================================================== */
+
+    /* ===== SCENE-MOCKUP (게임 화면 프레임, 16:9) ===== */
+    .scene-mockup {
+      position: relative;
+      aspect-ratio: 16/9;
+      background:
+        linear-gradient(var(--scene-grid) 1px, transparent 1px) 0 0 / 32px 32px,
+        linear-gradient(90deg, var(--scene-grid) 1px, transparent 1px) 0 0 / 32px 32px,
+        var(--scene-bg);
+      color: var(--scene-ink);
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 0.85rem;
+    }
+    .scene-mockup .scene-label {
+      position: absolute; top: 8px; left: 8px;
+      background: rgba(0,0,0,0.6); padding: 2px 8px; border-radius: 4px;
+      font-size: 0.7rem; color: var(--scene-ink);
+    }
+
+    /* ===== HUD-SLOT (HUD 요소 배치: data-pos 속성으로 위치) ===== */
+    .hud-slot {
+      position: absolute;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--scene-accent);
+      color: var(--scene-ink);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .hud-slot[data-pos="top-left"]     { top: 12px; left: 12px; }
+    .hud-slot[data-pos="top-center"]   { top: 12px; left: 50%; transform: translateX(-50%); }
+    .hud-slot[data-pos="top-right"]    { top: 12px; right: 12px; }
+    .hud-slot[data-pos="middle-left"]  { top: 50%; left: 12px; transform: translateY(-50%); }
+    .hud-slot[data-pos="middle-right"] { top: 50%; right: 12px; transform: translateY(-50%); }
+    .hud-slot[data-pos="bottom-left"]  { bottom: 12px; left: 12px; }
+    .hud-slot[data-pos="bottom-center"]{ bottom: 12px; left: 50%; transform: translateX(-50%); }
+    .hud-slot[data-pos="bottom-right"] { bottom: 12px; right: 12px; }
+
+    /* HP/MP 바 */
+    .hud-bar {
+      height: 8px; background: rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden;
+      min-width: 120px; margin-top: 4px;
+    }
+    .hud-bar > span { display: block; height: 100%; background: var(--scene-accent); }
+
+    /* ===== CAMERA-DIAGRAM (시점 도식: 탑뷰) ===== */
+    .camera-diagram {
+      aspect-ratio: 1/1;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .camera-diagram .actor {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translate(-50%, -50%);
+    }
+    .camera-diagram .camera {
+      position: absolute;
+      width: 18px; height: 18px;
+      background: var(--scene-accent);
+      clip-path: polygon(0 50%, 100% 0, 100% 100%);
+      transform: translate(-50%, -50%);
+    }
+    .camera-diagram .fov {
+      position: absolute;
+      border-top: 1px dashed var(--scene-accent);
+      border-bottom: 1px dashed var(--scene-accent);
+      transform-origin: left center;
+      opacity: 0.7;
+    }
+    .camera-diagram .axis-label {
+      position: absolute; font-size: 0.65rem; color: var(--text-tertiary);
+    }
+
+    /* ===== TIMELINE-BAR (공격·애니메이션 타이밍) ===== */
+    .timeline-bar {
+      display: flex;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      font-size: 0.7rem;
+      background: var(--bg-secondary);
+    }
+    .timeline-bar > .seg {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+      color: white;
+      text-align: center;
+      line-height: 1.1;
+    }
+    .timeline-bar > .seg[data-kind="startup"]  { background: #6b7280; }
+    .timeline-bar > .seg[data-kind="active"]   { background: var(--scene-accent); }
+    .timeline-bar > .seg[data-kind="recovery"] { background: #9ca3af; }
+    .timeline-bar > .seg[data-kind="cancel"]   { background: #fbbf24; color: #111; }
+    .timeline-axis {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+      padding: 0 2px;
+    }
+
+    /* ===== NODE-GRAPH (씬 트리 / 상태머신) ===== */
+    .node-graph {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+    }
+    .node-graph .node {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-primary);
+    }
+    .node-graph .node[data-type="scene"]    { border-color: var(--accent); }
+    .node-graph .node[data-type="script"]   { border-color: var(--success); }
+    .node-graph .node[data-type="resource"] { border-color: var(--warning); }
+    .node-graph .indent-1 { margin-left: 16px; }
+    .node-graph .indent-2 { margin-left: 32px; }
+    .node-graph .indent-3 { margin-left: 48px; }
+    .node-graph .edge {
+      color: var(--text-tertiary);
+      font-size: 0.7rem;
+      padding: 0 8px;
+    }
+
+    /* ===== SILHOUETTE (캐릭터 실루엣 SVG 컨테이너) ===== */
+    .silhouette {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      aspect-ratio: 3/4;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .silhouette svg { max-height: 100%; max-width: 100%; fill: var(--text-primary); }
+
+    /* ===== TILE-GRID (레벨/방 격자 배치) ===== */
+    .tile-grid {
+      display: grid;
+      gap: 2px;
+      background: var(--border);
+      padding: 2px;
+      border-radius: 6px;
+      aspect-ratio: 1/1;
+    }
+    .tile-grid .tile {
+      background: var(--bg-secondary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    .tile-grid .tile[data-type="wall"]   { background: #374151; }
+    .tile-grid .tile[data-type="floor"]  { background: var(--bg-secondary); }
+    .tile-grid .tile[data-type="enemy"]  { background: var(--error); color: white; }
+    .tile-grid .tile[data-type="player"] { background: var(--accent); color: white; }
+    .tile-grid .tile[data-type="goal"]   { background: var(--success); color: white; }
+
+    /* ===== DEPTH-AXIS (Z축 원근감, 카메라 거리 비교) ===== */
+    .depth-axis {
+      position: relative;
+      height: 80px;
+      background: linear-gradient(to right, transparent, var(--bg-tertiary) 80%);
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+    .depth-axis .marker {
+      position: absolute;
+      top: 50%;
+      width: 10px; height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .depth-axis .marker + span {
+      position: absolute;
+      top: calc(50% + 10px);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Visual Gate · 3D 게임 (Godot 4)</h1>
+    <div class="status">Connected</div>
+  </div>
+
+  <div class="main">
+    <div id="claude-content">
+      <!-- CONTENT -->
+    </div>
+  </div>
+
+  <div class="indicator-bar">
+    <span id="indicator-text">위에서 옵션을 클릭한 뒤 터미널로 돌아가세요</span>
+  </div>
+
+</body>
+</html>

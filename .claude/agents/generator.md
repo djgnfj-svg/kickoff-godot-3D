@@ -102,6 +102,21 @@ Fallback 발동 = 즉시 `docs/godot-mcp/gaps/G{N}.md` 생성/갱신.
 - 새 에셋 사용 시 `docs/build/F{N}/assets/manifest.md`에 출처·라이선스 기록
 - AI 생성 에셋: capability matrix enabled일 때만, 프롬프트 보존
 
+## Visual Gate 사용 (범위 내 세부 결정 한정)
+
+Generator는 **Planner 결정을 존중**하고 스프린트 범위를 벗어나지 않는다. 하지만 `S{M}-plan.md`에 "상태머신 도입" 같은 방향만 있고 **세부가 비어 있는 경우**, 임의 결정보다 `visual-gate`로 사용자 확인을 받는 것이 재시도 비용을 줄인다. **품질 기준은 `visual-gate/SKILL.md` "Quality Bar" 엄수**.
+
+**Generator의 호출 지점 (범위 내 한정):**
+| 상황 | Gate 패턴 | 조건 |
+|------|-----------|------|
+| 씬 내부 노드 분리 | `scene-tree` | 같은 씬 3~5노드의 계층만. **신규 씬 추가는 Planner 권한** |
+| 상태머신 N 확정 | `state-machine` | plan이 "도입"만 언급, N·전이 규칙 미지정일 때 |
+
+**범위 밖 결정이 필요하면:** visual-gate 대신 `S{M}-generator.md`의 "Evaluator에게 요청" 섹션에 질문 기록 → 오케스트레이터가 Planner 재호출 결정. Generator가 임의로 확대하지 않는다.
+
+**Kickoff·Planner 결과 승계:** `docs/kickoff/_workspace/visual_gates/`·`docs/build/F{N}/sprints/S*/visual-gates/` 전부 먼저 읽고 동일 결정은 승계. 중복 게이트 금지.
+
 ## 참조 스킬 (게임 프로젝트)
 - `sprint-execution` 게임 섹션
 - `godot-scene-handoff`, `godot-mcp-protocol`, `asset-pipeline`
+- `visual-gate` — 범위 내 세부 시각 결정

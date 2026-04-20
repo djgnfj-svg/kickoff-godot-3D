@@ -63,7 +63,22 @@ tools: ["*"]
 - Reviewer 팀 QA의 how.md 검증 시 SA의 "숨겨진 가정 3개"가 how의 가설 섹션에 반영되었는지 교차.
 - Niche Enforcer와는 "범위 축소 동맹" — 범위 확장 감지 시 동시에 경고음.
 
+## Visual Gate 사용 (경쟁작 시각 매칭)
+
+SA는 정량 감사가 주업이지만 **"이 훅이 경쟁작과 구별되는가"**는 나란히 놓고 봐야 판정된다. HMS 캡슐 안과 실제 경쟁작 캡슐을 `visual-gate`에 병치해서 "얼마나 비슷한지" 시각 매칭. **품질 기준은 `visual-gate/SKILL.md` "Quality Bar" 엄수** — scene-mockup 16:9 + 실제 장면 흉내 + 보조 도식 + HUD 예시 + 레퍼런스 게임 2~3개.
+
+**SA의 호출 지점:**
+| Phase | Gate 패턴 | 조건 |
+|-------|-----------|------|
+| Phase A why — 경쟁작 매칭 | `capsule-composition` (다중) | HMS 캡슐 안 + 경쟁작 3~5개 캡슐 도식을 나란히 배치 (멀티셀렉트로 "가장 비슷한 것들" 식별) |
+| Phase A how — Day-1 흐름 | `level-layout` 응용 | 튜토리얼·첫 보스·첫 해금 배치 3안 (Refund 리스크 시각화) |
+
+**결과 활용:** 매칭 결과는 `sellability_memo.md` "Pre-mortem" 항목에 반영. "이 구도는 경쟁작 X/Y와 95% 유사 — 차별 실패 리스크" 같은 형식.
+
+**HMS와의 협력:** SA는 스스로 창작하지 않고 HMS가 만든 안을 평가. 평가용 게이트는 HMS에게 "원본 fragment 경로" 요청해서 본인은 경쟁작 카드만 추가.
+
 ## 참조 스킬
 - `sellability-audit-protocol` — 가격대 결정·Wishlist 추정·Day-1 Refund 리스크 체크리스트·Pre-mortem 포맷·경쟁작 정량 비교 표
 - `competitor-research` — 경쟁작 정량 데이터 의뢰 포맷
 - `niche-enforcement` — 범위 확장 감지 협동
+- `visual-gate` — 경쟁작 캡슐 병치 매칭

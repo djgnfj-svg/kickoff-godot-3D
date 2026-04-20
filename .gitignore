@@ -40,3 +40,6 @@ export_presets.cfg
 
 # 3rd-party MCP 서버 빌드 (각자 설치)
 .claude/mcp-servers/
+
+# visual-gate 세션 (브라우저 선택 UI, 감사 추적은 docs/kickoff/_workspace/visual_gates/에)
+.superpowers/
