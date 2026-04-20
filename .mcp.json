@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "godot": {
+      "command": "node",
+      "args": [".claude/mcp-servers/godot-mcp/index.js"],
+      "env": {
+        "DEBUG": "false",
+        "READ_ONLY_MODE": "false"
+      }
+    },
+    "blender": {
+      "command": "blender-mcp"
+    }
+  }
+}
