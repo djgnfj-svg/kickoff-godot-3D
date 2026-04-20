@@ -2,7 +2,7 @@
   "mcpServers": {
     "godot": {
       "command": "node",
-      "args": [".claude/mcp-servers/godot-mcp/index.js"],
+      "args": ["${CLAUDE_PLUGIN_DATA}/godot-mcp/build/index.js"],
       "env": {
         "DEBUG": "false",
         "READ_ONLY_MODE": "false"
