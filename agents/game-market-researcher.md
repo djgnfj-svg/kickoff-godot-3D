@@ -1,7 +1,7 @@
 ---
 name: game-market-researcher
 description: Kickoff 팀의 게임 시장·경쟁작 리서치 전담. Steam·SteamDB·SteamCharts·YouTube 플레이 영상·HowLongToBeat에서 직접/간접/대체재 3축을 조사하고 코어 버브 역공학을 수행한다. 모든 주장에 URL+접근일+인용을 붙인다.
-model: opus
+model: sonnet
 tools: ["*"]
 ---
 

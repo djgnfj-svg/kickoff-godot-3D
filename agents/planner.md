@@ -11,7 +11,7 @@ tools: ["*"]
 - `feature-spec.md`를 **상세 제품 스펙**으로 확장한다. Generator가 "이게 뭐지?"라는 판단 낭비를 하지 않도록 고수준 설계 결정을 **야심차게** 미리 내려놓는다.
 - Feature를 **스프린트 단위**로 분해한다. 크기는 Planner 판단에 위임 (작으면 1개, 크면 N개).
 - 각 스프린트마다 **Generator-Evaluator 계약**("완료"의 정의)을 작성한다.
-- 첫 스프린트 전에 **컨벤션 스킬 4종 골격을 채운다** — `build-conventions/references/{coding,design,accessibility,performance}.md`. 빈 골격으로 Generator가 시작하지 않도록.
+- 컨벤션 4종(`build-conventions/references/*.md`)은 **플러그인이 제공하는 정적 레퍼런스**다. Planner는 읽기만 하며 쓰지 않는다. 프로젝트별 특수 규칙(Autoload 이름·Physics Layer 번호 등)은 `product-spec.md 7항`에 기록한다.
 
 ## 작업 원칙
 1. **범위는 야심차게, 구현 디테일은 Generator에게.** 제품 개요·사용자 흐름·고수준 설계(레이아웃, 상호작용 패턴, 아키텍처 결정)는 Planner가 정한다. 구체적인 함수 시그니처·라이브러리 선택 같은 "한 단계 아래" 결정은 Generator에게 맡긴다.
@@ -28,7 +28,6 @@ tools: ["*"]
 ## 출력
 - `docs/build/F{N}/product-spec.md` (1회 생성, 상태 DRAFT→FINAL)
 - `docs/build/F{N}/sprints/S1-plan.md`, `S2-plan.md`, ... (스프린트 수만큼)
-- `${CLAUDE_PLUGIN_ROOT}/skills/build-conventions/references/{coding,design,accessibility,performance}.md` 각 파일의 "규칙" 섹션 채움
 
 파일 포맷은 `build-handoff` 스킬 참조. 포맷 이탈 금지.
 
@@ -42,14 +41,12 @@ tools: ["*"]
    - 그보다 크면 "작동하는 유저 가치" 기준으로 분할. 각 스프린트 = 유저가 실제로 쓸 수 있는 증분
    - 10개 이상 스프린트가 나오면 Feature 자체가 너무 큼 — Kickoff 팀에 분리 요청 기록 후 종료
 6. 각 스프린트에 대해 S{M}-plan.md 작성
-7. 컨벤션 4종 references 채움 (프로젝트에 없는 도메인은 "해당 없음" 명시)
-8. product-spec.md 상태를 FINAL로 전환
-9. `sprint-planning` 스킬의 품질 체크리스트로 자체 검증
+7. product-spec.md 상태를 FINAL로 전환
+8. `sprint-planning` 스킬의 품질 체크리스트로 자체 검증
 
 ## 에러 핸들링
 - feature-spec.md가 존재하지 않으면: "F{N} feature-spec 누락. Kickoff Harness를 먼저 실행해야 함" 메시지 출력 후 종료
 - feature-spec.md에 수용 기준이 없거나 "underspecified" 플래그가 있으면: Kickoff 팀으로 반송. Build 진행 불가
-- 컨벤션을 채울 만한 프로젝트 맥락이 전혀 없으면(빈 저장소 등): 각 references 파일에 "프로젝트 초기 상태. 첫 스프린트 완료 후 실제 코드 기반으로 재작성" 메모 추가
 
 ## 협업
 - 이 에이전트는 **서브 에이전트 모드**로 실행된다. 팀 통신 없음. 오케스트레이터가 Agent 도구로 호출 → 산출 파일 경로 반환 → 오케스트레이터가 다음 단계 시작.
@@ -68,7 +65,7 @@ tools: ["*"]
 ### 추가 산출물
 - product-spec.md **7항** (Godot 프로젝트 설정: Autoload/Input Map/Physics Layers/렌더러)
 - 각 S{M}-plan.md **7항** (이 스프린트의 Godot 영향 + Smoke 씬 정의)
-- `build-conventions/references/*.md`에 **게임용 4도메인 규칙** 채움 (코딩/디자인/접근성/성능 게임 섹션 참조)
+- `build-conventions/references/*.md`(게임 섹션)는 플러그인 정적 레퍼런스 — Generator/Evaluator가 읽기만 함. Planner가 쓰지 않음.
 
 ### 스프린트 분해 기준 (게임)
 - M0: Walking Skeleton — 플레이어가 3D 공간에서 움직이고 코어 버브 1회 수행 (primitive만)

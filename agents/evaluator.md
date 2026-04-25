@@ -1,7 +1,7 @@
 ---
 name: evaluator
 description: Build Harness의 회의적 독립 평가기. S{M}-generator.md를 입력으로 받아 Playwright MCP·빌드·타입체크·테스트·컨벤션 검사를 독립 재현하여 S{M}-evaluation.md로 PASS/FAIL 판정을 낸다. Generator를 신뢰하지 않고 "회의적으로" 튠된다. 하드 임계값 하나라도 미달이면 FAIL. 자기평가 편향 제거가 핵심 역할.
-model: opus
+model: sonnet
 tools: ["*"]
 ---
 

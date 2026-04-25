@@ -25,15 +25,13 @@ build-conventions/
     └── performance.md                ← 번들·응답시간·메모리·렌더링
 ```
 
-각 파일은 **첫 스프린트 시작 전에 초기 값을 채운다.** 비어 있는 상태로 두면 Evaluator가 "위반 없음"만 반환해 하네스가 의미 없어진다.
+각 파일은 **플러그인이 제공하는 정적 레퍼런스**다. 3D 게임(Godot 4) 일반 규칙(GDScript 네이밍·노드 트리 패턴·Physics·렌더 성능 등)이 미리 채워져 있다. Generator/Evaluator는 **읽기 전용**으로 사용한다.
 
-## 골격의 의미
+## 정적 레퍼런스 원칙
 
-각 references 파일은 **구조만 고정된 빈 템플릿**이다. 첫 사용 시 Planner가 feature-spec.md + 사용자 프로젝트 현황을 보고 구체 값을 채운다:
-
-- 스택이 결정되면 coding.md에 해당 언어/프레임워크 규칙을 채움 (예: TS strict 모드, import 순서)
-- UI가 있으면 design.md에 팔레트·타이포·간격 결정을 채움
-- 없는 도메인은 "해당 없음"으로 명시 (삭제 금지 — 나중에 추가 가능성)
+- 런타임에 Planner/Generator/Evaluator가 이 파일을 **수정하지 않는다**. 플러그인은 여러 프로젝트가 공유하는 자산이라 런타임 수정은 다른 프로젝트로 오염된다.
+- **프로젝트별 특수 규칙**(Autoload 이름·Physics Layer 번호·렌더러 선택·InputMap 등)은 `docs/build/F{N}/product-spec.md 7항`에 기록한다. 이게 프로젝트 단일 진실원.
+- 플러그인 레퍼런스의 일반 규칙을 개선해야 한다고 판단되면 Evaluator가 evaluation.md "체제 개선 제안" 섹션에 메모만 남긴다. 실제 반영은 플러그인 유지보수자가 별도로 수행.
 
 ## 사용 흐름
 
@@ -104,29 +102,18 @@ build-conventions/
 - `FAIL` = Evaluator가 이 규칙 위반 시 스프린트를 FAIL로 판정
 - `WARN` = 누적 관찰은 하되 단독으로 FAIL시키지 않음
 
-## 초기 채우기 절차
-
-첫 Feature의 첫 스프린트 시작 직전, Planner가 다음을 수행:
-
-1. `feature-spec.md` 읽음 → 스택·UI 여부·성능 목표 파악
-2. 사용자 프로젝트 루트의 기존 설정 파일(`package.json`, `tsconfig.json`, 린터 설정, 디자인 토큰 등) 확인
-3. 각 references/*.md에 해당 프로젝트에 맞는 최소 규칙 3-5개씩 채움
-4. 해당 도메인이 없으면("CLI 앱이라 design 없음") 명시적으로 "해당 없음. 이번 Feature 범위에서는 적용하지 않음"이라고 기록
-
-빈 골격 그대로 Generator/Evaluator가 작업 시작하는 것 금지.
-
 ## 이 스킬을 참조하는 주체
 
-- `planner` 에이전트 → 초기 채우기 + 규칙 갱신
-- `generator` 에이전트 → 구현 시 참조
-- `evaluator` 에이전트 → 판정 시 참조
+- `generator` 에이전트 → 구현 시 읽기 (정적 레퍼런스)
+- `evaluator` 에이전트 → 판정 시 읽기 (정적 레퍼런스)
 - `sprint-execution` / `sprint-evaluation` 스킬 → 체크리스트 연동
+- 플러그인 유지보수자 → 일반 규칙 자체를 개선할 때만 수정 (런타임 에이전트 아님)
 
 ---
 
 ## 게임 프로젝트 (3D 게임 — Godot 4) 4도메인 초기 규칙
 
-프로젝트가 Godot 4 게임이면 4도메인의 규칙 세트를 **게임용**으로 채운다. Planner가 첫 스프린트 시작 전 `references/{coding,design,accessibility,performance}.md`를 아래 예시에 맞춰 채운다.
+아래는 플러그인이 미리 채워둔 **3D 게임(Godot 4) 일반 규칙 세트**다. Generator/Evaluator는 읽기 전용으로 참조한다. 프로젝트별 특수 규칙(Autoload 이름·Physics Layer 번호·렌더러 등)은 `product-spec.md 7항`에 따로 기록한다.
 
 ### coding.md (게임 버전)
 - **R1. 파일 레이아웃:** `godot-scene-handoff` 스킬의 표준 레이아웃 준수. 검증: ls 명령으로 루트 디렉토리 확인, 스크립트가 `scripts/` 외부에 있으면 위반.

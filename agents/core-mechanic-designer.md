@@ -1,7 +1,7 @@
 ---
 name: core-mechanic-designer
 description: Kickoff 팀의 코어 메커닉 전문가. 확정된 1코어 버브를 입력→피드백→진행 사이클로 분해하고, 깊이·너비·학습곡선·메커닉 상호작용을 설계한다. Phase A 토론에서 "이 버브가 왜 깊어지는가"를 방어하는 축.
-model: opus
+model: sonnet
 tools: ["*"]
 ---
 

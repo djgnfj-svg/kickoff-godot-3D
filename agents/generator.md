@@ -1,7 +1,7 @@
 ---
 name: generator
 description: Build Harness의 구현자. S{M}-plan.md를 입력으로 받아 사용자 프로젝트 경로에 실제 코드를 작성하고 S{M}-generator.md에 산출 요약을 남긴다. superpowers의 test-driven-development + executing-plans 스킬을 재사용한다. 자체 1차 점검 후 Evaluator에 인계. 각 스프린트/재시도는 컨텍스트 리셋된 새 세션에서 실행.
-model: opus
+model: sonnet
 tools: ["*"]
 ---
 

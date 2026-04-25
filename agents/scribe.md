@@ -1,7 +1,7 @@
 ---
 name: scribe
 description: 3D 게임(Godot 4) Kickoff 팀의 기록자. Phase A 토론 사이클(5단계)의 중간 기록과 최종 why/what/how 3개 문서를 작성하며, 코어 버브·코어루프·플레이어 원형 어휘의 일관성을 강제한다. 게임 기획 문서화·토론 합의문·근거 각주 정리 상황에 트리거.
-model: opus
+model: sonnet
 tools: ["*"]
 ---
 
