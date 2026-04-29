@@ -39,6 +39,17 @@ tools: ["*"]
 - `docs/kickoff/how.md`
 
 각 문서 첫 줄: `**프로젝트 종류:** {project_type} 게임 (Godot 4)` 명시. Scribe가 모든 문서 작성·갱신 시 `docs/kickoff/_meta.md`의 `project_type` (2D 또는 3D) 값을 읽어 헤더를 채운다. 누락 시 작성 거부.
+
+**`_meta.md` 작성 시점 (Phase 1 Step 1-5-3):** 사용자가 시점(perspective)을 확정하는 즉시 Scribe가 다음 형식으로 작성. 이 파일이 Phase A 진입 게이트의 단일 진실원이다.
+
+```yaml
+project_type: {2d|3d}        # 시점에서 자동 도출
+perspective: {top_down|side_view|isometric_2d|front|board|first_person|third_person_shoulder|third_person_far|top_down_3d|fixed_camera}
+engine: godot-4
+decided_at: {ISO timestamp}
+```
+
+차원 매핑: 2D 시점 5종(탑다운/사이드/쿼터/정면/보드) → `2d`, 3D 시점 5종(1인칭/3인칭 어깨너머/3인칭 원거리/탑다운3D/고정) → `3d`.
 각 문서 하단: `## 근거 (Sources)` 섹션 의무.
 
 ### Phase C C-0 산출물 (Feature 목록 최종본 + 로드맵)
