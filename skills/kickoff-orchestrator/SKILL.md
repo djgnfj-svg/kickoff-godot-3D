@@ -37,7 +37,31 @@ description: 3D 게임(Godot 4) Kickoff에서 why.md / what.md / how.md 3개 문
    - **새 실행 (덮어쓰기):** 기존 산출물 + 사용자가 새 아이디어 제공 → 기존 `_workspace/`를 `_workspace_prev/`로 이동, 최종 문서는 `docs/kickoff/archive/{timestamp}/`로 백업
 3. 사용자에게 감지된 실행 모드를 1줄로 보고하고 진행한다.
 
-**프로젝트 고정 가정:** 이 하네스는 3D 게임(Godot 4) 전용이다. 모든 문서 첫 줄에 `**프로젝트 종류:** 3D 게임 (Godot 4)` 명시.
+**프로젝트 고정 가정:** 엔진은 Godot 4로 고정. 차원(2D/3D)은 Phase 0-1에서 사용자에게 명시 질문하여 변수화한다.
+
+---
+
+### Phase 0-1: 프로젝트 차원 결정 (2D/3D)
+
+Founder가 사용자에게 명시적으로 질문:
+
+> "이 게임은 2D인가요, 3D인가요?"
+
+답에 따라 모든 후속 산출물의 헤더를 다음 형식으로 고정:
+- 2D 답변 → `**프로젝트 종류:** 2D 게임 (Godot 4)`
+- 3D 답변 → `**프로젝트 종류:** 3D 게임 (Godot 4)`
+
+결과를 `docs/kickoff/_meta.md`에 다음 형식으로 저장:
+
+```yaml
+project_type: {2d|3d}
+engine: godot-4
+decided_at: {timestamp}
+```
+
+이후 모든 에이전트/스킬은 차원-특화 동작이 필요할 때 `_meta.md`의 `project_type`을 먼저 읽거나 해당 스킬의 `references/{2d,3d}.md`를 로드한다.
+
+**한 번 결정되면 변경 불가** — 차원 변경이 필요하면 사용자에게 새 프로젝트로 시작할 것을 권고.
 
 ## Phase 1: 사용자 입력 수집 — **대화 중심 순차 확정**
 
