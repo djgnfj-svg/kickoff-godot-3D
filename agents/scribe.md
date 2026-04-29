@@ -213,6 +213,133 @@ Founder가 "중간 변경" 판정을 내리면 Scribe는 다음 둘을 동시에
 ### 템플릿 준수
 각 문서는 `kickoff-docs` 스킬의 **게임 프로젝트 템플릿**을 따른다. 반드시 스킬 본문을 먼저 읽고 작성한다.
 
+### Phase D 합본 산출물 (GDD.md + PRD.md, 파생 뷰)
+
+Phase C-2 완료(모든 feature-spec 생성 후) 시점에 Scribe가 두 합본을 컴파일한다. **둘 다 파생 뷰** — 5종 단일 진실원(why/what/how/_feature-list/feature-spec)에서 자동 생성. 직접 편집 금지, 5종 변경 시 Scribe가 재컴파일.
+
+#### `docs/kickoff/GDD.md` (Game Design Document, 외부 공유용 5~10p)
+
+소스: `why.md` + `what.md` + `_workspace/game_meta.md` + `_workspace/confirmed_*.md` + `_workspace/sellability_memo.md`
+
+**템플릿:**
+```markdown
+**프로젝트 종류:** {project_type} 게임 (Godot 4)
+**문서 종류:** Game Design Document (파생 뷰 — 직접 편집 금지)
+**컴파일 일자:** YYYY-MM-DD
+**소스:** why.md / what.md / game_meta.md / confirmed_*.md / sellability_memo.md
+
+# {게임 이름 또는 Working Title}
+
+## 0. 한 줄 요약 (High Concept)
+{why.md의 한 문장}
+
+## 1. 플레이어 원형 / 코어 결핍 / 코어 버브
+- 1플레이어 원형: {confirmed_archetype.md 확정 요약}
+- 1코어 결핍: {confirmed_lack.md 확정 요약 — 감정 1개}
+- 1코어 버브: {confirmed_verb.md 확정 요약 — 동사 1개}
+
+## 2. 코어루프 (4단계)
+{what.md의 Anticipation / Action / Feedback / Progress 그대로}
+
+## 3. 3층 훅
+- 0.5초층 (캡슐 첫인상): {why.md 인용}
+- 5초층 (영상 첫 인상): {why.md 인용}
+- 30초층 (지속 흥미): {why.md 인용}
+- 한 줄 카피: {hook_memo.md 인용}
+
+## 4. 게임 메타
+| 축 | 값 |
+|----|----|
+| 장르 | {1-5-1} |
+| 플랫폼 (MVP) | {1-5-2} |
+| 시점·카메라 | {1-5-3} + 레퍼런스 게임 2~3 |
+| 플레이타임 | {1-5-4} |
+| 멀티 | {1-5-5} |
+
+## 5. 시장·가격
+- 가격대: {sellability_memo.md}
+- Wishlist 목표: {sellability_memo.md}
+- 경쟁작 3개: {연결 + 차별 한 줄}
+- Pre-mortem 시나리오: {sellability_memo.md 핵심 3개}
+
+## 6. 출처 (Sources)
+{why·what·how·sellability의 Sources 통합 (중복 제거)}
+```
+
+**길이 기준:** 5~10페이지. 항목별 압축, 원본 인용 시 핵심 1~2문장만.
+
+#### `docs/kickoff/PRD.md` (Product Requirements Document, 구현 진입점)
+
+소스: `_feature-list.md` + `how.md` 기술 섹션 + 각 `F{N}/feature-spec.md`의 §0-A·§0-B·§7.3
+
+**템플릿:**
+```markdown
+**프로젝트 종류:** {project_type} 게임 (Godot 4)
+**문서 종류:** Product Requirements Document (파생 뷰 — 직접 편집 금지)
+**컴파일 일자:** YYYY-MM-DD
+**소스:** _feature-list.md / how.md / F{1..N}/feature-spec.md
+
+# {게임 이름} — PRD
+
+## 0. 마일스톤 진행 원칙
+각 마일스톤은 **동작 기준 + 자동 테스트 + 사용자 검수** 3축이 모두 통과해야 다음 마일스톤으로 전진. Walking Skeleton(M0b) 이후 모든 F는 코어루프를 닫는 상태에서 추가된다.
+
+## 1. 마일스톤 일람
+{_feature-list.md의 표 그대로 인용 (M0a → M0b → F1 → ... → FN)}
+
+## 2. 마일스톤 상세
+
+### M0a — 환경 검증
+**동작 기준 (한 줄):** {_feature-list.md 인용}
+**자동 테스트:**
+- `godot --headless --import` 종료코드 0 + 에러 로그 0
+- smoke 씬 헤드리스 실행 종료코드 0
+**사용자 검수:** N/A (자동만)
+
+### M0b — Walking Skeleton
+**동작 기준 (한 줄):** {_feature-list.md 인용}
+**자동 테스트:** {how.md M0b 완료 조건}
+**사용자 검수:** `docs/build/M0b/USER_CHECK.md`에서 §0-B 체크 (없으면 _feature-list.md "확인 체크리스트" 인용)
+
+### F1 — {이름}
+**완료 시 보이는 화면·플레이 (§0-A):**
+{F1/feature-spec.md §0-A 한 문단 인용}
+
+**동작 체크리스트 (§0-B, 3~5개):**
+- [ ] {항목 1}
+- [ ] {항목 2}
+...
+
+**자동 테스트 수용 기준 (§7.3 요약):**
+- {Given/When/Then 1줄 요약} × N
+(상세는 `docs/features/F1/feature-spec.md §7.3` 참조)
+
+**사용자 검수:** Phase 2.7에서 `docs/build/F1/USER_CHECK.md` 작성 → §0-B 직접 체크
+**의존:** {_feature-list.md의 의존 컬럼}
+**기여 코어루프 단계:** {Anticipation / Action / Feedback / Progress 중}
+
+### F2 — ...
+(동일 구조)
+
+## 3. 기술 통합 리스트
+{_feature-list.md의 "기술 통합 리스트" 섹션 그대로 인용 — 씬·스크립트·Autoload·Physics Layers·InputMap + 도입 타이밍 요약}
+
+## 4. 공통 누락 점검
+{_feature-list.md의 "공통 누락 점검" 표 그대로 인용 — 메인 메뉴/게임오버/설정/일시정지}
+
+## 5. 출처 (Sources)
+- 마일스톤 표: `docs/features/_feature-list.md` (Status: FROZEN)
+- 기술 계약: `docs/kickoff/how.md`
+- F별 상세: `docs/features/F{1..N}/feature-spec.md`
+```
+
+**길이 기준:** F 수에 비례. 각 F 섹션은 1페이지 내. §7.3 상세는 인용하지 않고 링크.
+
+#### 컴파일 규칙
+- **순서:** GDD.md 먼저, PRD.md 나중 (PRD가 GDD를 참조하지 않음 — 둘 다 5종에서 직접 컴파일).
+- **재컴파일 트리거:** 5종 중 하나라도 갱신되면 Phase D 시점에 Scribe가 GDD.md/PRD.md 둘 다 재생성. 사용자가 직접 편집한 흔적이 있으면 백업 후 덮어쓰기 + 경고.
+- **drift 감지:** Phase D 체크리스트에 "GDD/PRD의 컴파일 일자가 5종 mtime보다 최신인가" 검증.
+
 ## 게임 전용 어휘 치환 의무
 
 | 일반 어휘 | 게임 전용 (강제) |
