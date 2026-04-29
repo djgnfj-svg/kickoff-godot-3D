@@ -1,6 +1,6 @@
-# Kickoff Project — 3D 게임 (Godot 4) 전용 하네스
+# Kickoff Project — 2D/3D 게임 (Godot 4) 하네스
 
-본 저장소는 **3D 게임(Godot 4) 전용**으로 두 개의 하네스를 운영한다:
+본 저장소는 **2D/3D Godot 4 게임 프로젝트**용으로 두 개의 하네스를 운영한다:
 - **Kickoff Harness** — why/what/how + feature-spec 문서 생성 (기획 단계)
 - **Build Harness** — feature-spec을 받아 실제 코드까지 구현 (구현 단계)
 
@@ -8,19 +8,17 @@
 
 ## 프로젝트 고정 규칙
 
-모든 문서(why/what/how/feature-spec)의 첫 줄은 `**프로젝트 종류:** 3D 게임 (Godot 4)` 헤더를 의무 포함한다. 핵심 불변 규칙은 **1플레이어 원형·1코어 결핍·1코어 버브** — 이 3요소 외의 모든 확장은 Niche Enforcer가 차단한다.
+모든 문서(why/what/how/feature-spec)의 첫 줄은 `**프로젝트 종류:** {2D|3D} 게임 (Godot 4)` 헤더를 의무 포함한다 (차원은 Phase 0-1에서 사용자에게 명시 질문하여 변수화). 핵심 불변 규칙은 **1플레이어 원형·1코어 결핍·1코어 버브** — 이 3요소 외의 모든 확장은 Niche Enforcer가 차단한다.
 
 ### 게임 프로젝트 고정 가정
 - 엔진: **Godot 4.x**
-- 에디터 자동화: **Godot MCP** (capability matrix로 관리, 진화하는 변수)
-- MCP 부재 시 fallback: `godot --headless` CLI → `.tscn`/`.gd` 텍스트 편집 → 사용자 위임
-- 에셋: placeholder-first 4단계 폴백 (primitive → 무료 라이브러리 → AI 생성 → 사용자 위임)
+- 에디터 작업: `.tscn`/`.gd`/`.tres` 텍스트 직접 편집 + `godot --headless --import` smoke + 시각 확인은 사용자 위임
+- 에셋: placeholder-first 2단계 폴백 (Godot 내장 primitive/ColorRect → 사용자 위임)
 - 테스트: GUT 또는 GdUnit4
 
 ### 게임 전용 스킬
-- `godot-mcp-protocol` — MCP 사용 규약 + capability matrix + 갭 보고
 - `godot-scene-handoff` — 씬/리소스/프로젝트 설정 핸드오프 7항 표준
-- `asset-pipeline` — 에셋 4단계 폴백 체인
+- `asset-pipeline` — 에셋 2단계 폴백 체인
 
 ### 에이전트 통합 프로토콜
 1인-전용 스킬 6개(`competitor-research` / `game-design-loop` / `hook-design-protocol` / `sellability-audit-protocol` / `niche-enforcement` / `kickoff-review`)는 스킬 개수 축소(19→13)를 위해 각 담당 에이전트 내부 `## 통합 프로토콜:` 섹션으로 흡수되었다. 사용처:
@@ -32,31 +30,16 @@
 - `build-auditor.md` §통합 프로토콜: 2인 리뷰 게이트 운영 규칙 (qa.md도 같은 규칙 참조)
 
 ### 게임 전용 파일 구조
-- `${CLAUDE_PLUGIN_ROOT}/skills/godot-mcp-protocol/references/capability-matrix.md` — MCP 현재 능력
-- `docs/godot-mcp/gaps/G{N}.md` — 누적 갭 리포트
-- `${CLAUDE_PLUGIN_ROOT}/skills/asset-pipeline/references/ai-capability-matrix.md` — AI 에셋 생성 API 활성화 여부
 - `docs/build/F{N}/assets/manifest.md` — 에셋 출처·라이선스
 
-### 플러그인 구조 (kickoff-godot-3d 플러그인)
-이 레포지토리는 Claude Code 플러그인 `kickoff-godot-3d` 그 자체다. 디렉토리:
+### 플러그인 구조 (kickoff-godot 플러그인)
+이 레포지토리는 Claude Code 플러그인 `kickoff-godot` 그 자체다. 디렉토리:
 - `.claude-plugin/plugin.json` — 플러그인 매니페스트
 - `agents/` — 에이전트 정의 (12개: founder·scribe·core-mechanic-designer·hook-strategist·game-market-researcher·sellability-auditor·niche-enforcer·build-auditor·qa·planner·generator·evaluator)
-- `skills/` — 스킬 (22개, 스킬 호출 시 `/kickoff-godot-3d:<skill-name>` 네임스페이스)
-- `mcp-servers/godot-mcp/` — bradypp/godot-mcp vendored fork (TypeScript 원본, 사용자 직접 수정 가능)
-- `mcp-servers/blender-mcp/` — ahujasid/blender-mcp vendored fork (Python 원본, 사용자 직접 수정 가능)
-- `scripts/sync-godot-mcp.sh` — SessionStart hook. 소스 변경 감지 → `${CLAUDE_PLUGIN_DATA}/godot-mcp/`에 자동 재빌드
-- `scripts/ensure-running.sh` — Godot/Blender 프로세스 자동 실행 (환경변수 + auto-detect)
-- `hooks/hooks.json` — SessionStart 훅 등록
-- `.mcp.json` — Godot(자동 빌드된 JS) + Blender(pip `blender-mcp` 명령) 서버 등록
+- `skills/` — 스킬 (21개, 스킬 호출 시 `/kickoff-godot:<skill-name>` 네임스페이스)
+- `.mcp.json` — 비어 있음 (`{ "mcpServers": {} }`)
 
 로컬 개발: `claude --plugin-dir .` 로 플러그인 로드. 스킬·에이전트 수정 후 `/reload-plugins` 로 핫 리로드.
-
-MCP 소스 직접 수정:
-- Godot: `mcp-servers/godot-mcp/src/*.ts` 편집 → 다음 세션 시작 시 자동 재빌드
-- Blender: `mcp-servers/blender-mcp/src/...` 편집 후 `pip install -e mcp-servers/blender-mcp` 로 재설치
-
-### MCP 개선 트랙 (선택)
-갭 리포트가 누적되면 별도 세션으로 build-orchestrator의 **MCP 개선 트랙**을 실행할 수 있다 (`build-orchestrator` 스킬의 해당 섹션 참조). 게임 구현과 분리된 트랙으로 진행.
 
 ## 하네스: Kickoff Harness
 
@@ -138,3 +121,4 @@ MCP 소스 직접 수정:
 | 2026-04-20 | **Phase C-0 공통 누락 점검 4항목 추가 (메인 메뉴·게임오버·설정·일시정지).** 플레이 핵심(이동·전투)에만 집중하다 UI/흐름 F를 빼먹는 문제 해결. Scribe가 `_feature-list.md` FROZEN 전에 4항목을 각각 ✅포함/⚠️의도적 제외(사유 1줄)/❌누락 중 하나로 판정. ❌ 하나라도 있으면 FROZEN 불가, Founder가 사용자에게 포함/제외 질문. Walking Skeleton(M0b)은 메뉴 없이 바로 플레이라 MVP 초기엔 의도적 제외가 보통이지만 **"잊은 게 아니라 뺀 결정"**이 기록되어야 한다 | `.claude/agents/scribe.md` (Phase C C-0 공통 누락 점검 섹션 신설 + `_feature-list.md` 템플릿 확장) | 사용자 지적: "게임 시작할 때는 메인 창이랑 이런 정보들이 없어서 메인 화면 이야기임" — Walking Skeleton만으로 기획 끝나면 타이틀·메뉴·게임오버가 통째 누락. 기획 단계에서 강제 체크 |
 | 2026-04-20 | **Phase 2.7 User Acceptance Gate 신설 (F 단위 사용자 검수).** Evaluator 자동 테스트가 PASS여도 "플레이어 체감"(반응성·카메라 느낌·시각 피드백)은 기계가 못 잡는 문제 해결. (1) **build-orchestrator Phase 2.7 섹션 신설** — F 마지막 스프린트 PASS → 2.7 진입, 사용자가 실제 플레이로 §0-B 체크, "OK/부분/재기획" 3갈래 응답. 재시도 J=2 (자동 테스트 K와 독립), 에스컬레이션 3개 선택지(§0-B 재협의 / §7.3 AC 추가 / F 보류). 비가시 F(순수 내부 시스템)는 §0-B↔§7.3 1:1 매칭 시 스킵 가능. (2) **Generator 마지막 스프린트 추가 산출물** — `scripts/check-F{N}.sh` (+ `.bat` + `scenes/__dev/check_f{N}.tscn` HUD 가이드 포함) + `docs/build/F{N}/USER_CHECK.md` (§0-A + §0-B 복제 + Y/N/부분 체크란 + 자동 테스트 매칭 표시). 재시도 시 USER_CHECK_prev_J{J}.md로 백업. (3) feature-spec §0-B가 단일 진실원 — _feature-list.md, _roadmap.html, USER_CHECK.md 3곳 전시. | `.claude/skills/build-orchestrator/SKILL.md` (Phase 2.7 섹션 + Phase 2-4 분기 수정), `.claude/agents/generator.md` (F 마지막 스프린트 추가 책임) | 사용자 요구: "F마다 목표 확실 → 구현 → AI 테스트(Evaluator) → ★ 인간이 체크 ★". 현재 흐름과 딱 1칸 차이(사람 체크). Evaluator PASS로 Phase 3 바로 넘어가던 구멍을 Phase 2.7 한 개로 메움. 10섹션 계약·TDD 경계 명시는 당장 불필요(§0-B·§7.3 기존 분리로 커버) — 복잡도 최소화 |
 | 2026-04-20 | **Claude Code 플러그인화 완료 (v0.1.0).** (1) `.claude/{agents,skills,scripts}/` → 플러그인 루트의 `{agents,skills,scripts}/`로 이동. `.claude-plugin/plugin.json` 매니페스트 신설. (2) `mcp-servers/godot-mcp/` — bradypp/godot-mcp main HEAD vendored fork(TypeScript 원본). `mcp-servers/blender-mcp/` — ahujasid/blender-mcp main HEAD vendored fork(Python 원본). (3) `scripts/sync-godot-mcp.sh` + `hooks/hooks.json` SessionStart 훅 — 소스 변경 감지 시 `${CLAUDE_PLUGIN_DATA}/godot-mcp/`에 자동 재빌드(증분). (4) `.mcp.json`이 `${CLAUDE_PLUGIN_ROOT}`·`${CLAUDE_PLUGIN_DATA}` 변수 참조 — 이식성 확보. (5) 에이전트·스킬 13개 파일 내 `.claude/{agents,skills,scripts}/` 하드코딩 37줄 일괄 치환. (6) 로컬 테스트 — `claude --plugin-dir .`로 로드 가능, sync 스크립트 실제 빌드 성공(index.js 생성 + Node 기동 확인). (7) README.md + CHANGELOG.md 신설. 상세 내역은 CHANGELOG.md v0.1.0 | `.claude-plugin/plugin.json`, `agents/`·`skills/`·`scripts/`·`mcp-servers/`·`hooks/` 디렉토리, `.mcp.json`, `.gitignore`, CLAUDE.md 플러그인 구조 섹션, README.md, CHANGELOG.md | 사용자 요구 3가지: ① "완전 플러그인화 해줘" — `.claude/` 통째로 프로젝트 종속인 문제 해결, 다른 프로젝트에서도 재사용 가능한 플러그인 형태로. ② "MCP 설정 현재 상태 맞는지 + 플러그인화 후 문제없는지 확인" — JSON 3종 유효성 + 실제 Godot MCP 빌드·기동까지 검증 통과. ③ "내가 Blender·Godot MCP를 자체적으로 업데이트할 수 있었으면" — vendored fork로 TypeScript·Python 원본을 플러그인 내부에 포함, 사용자가 편집 시 Godot은 다음 세션에서 자동 재빌드, Blender는 `pip install -e` 재실행으로 반영 |
+| 2026-04-29 | **kickoff-godot 2D 지원 + MCP 완전 제거 (v0.2.0).** 플러그인명 `kickoff-godot-3d` → `kickoff-godot`. Phase 0-1에서 Founder가 사용자에게 2D/3D 명시 질문, 결과를 `_meta.md`에 저장, 헤더가 `**프로젝트 종류:** {2D\|3D} 게임 (Godot 4)`로 변수화. Godot/Blender MCP 인프라(mcp-servers/, scripts/sync-godot-mcp.sh, scripts/ensure-running.sh, hooks/hooks.json, skills/godot-mcp-protocol/, docs/godot-mcp/) 완전 제거 — Generator는 .tscn/.gd 텍스트 직접 편집 + `godot --headless` smoke로 작업, 시각 확인은 사용자 위임. asset-pipeline 4단계 → 2단계 폴백(Godot 내장 → 사용자 위임). 차원-분기는 `references/{2d,3d}.md` 분리 방식 (asset-pipeline·godot-scene-handoff·visual-gate·kickoff-docs 등). Phase 1 Step 1-5 시점 옵션이 차원별로 다른 풀 제시. | .claude-plugin/plugin.json, CLAUDE.md, 스킬·에이전트 다수, mcp-servers/·scripts/·hooks/·skills/godot-mcp-protocol/ 삭제 | MCP 등록 안정성 문제 + 2D 게임 프로젝트 지원 요구. 자동화 부채 제거 후 텍스트/CLI 기본 경로로 단순화 |
