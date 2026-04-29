@@ -1,7 +1,7 @@
 {
-  "name": "kickoff-godot-3d",
-  "version": "0.1.0",
-  "description": "3D 게임(Godot 4) 전용 Kickoff/Build 하네스. why/what/how 기획 문서 + 스프린트 기반 자동 구현 파이프라인. Godot MCP와 Blender MCP를 vendored fork로 포함하여 사용자가 직접 수정·업데이트할 수 있다.",
+  "name": "kickoff-godot",
+  "version": "0.2.0",
+  "description": "2D/3D 게임(Godot 4) 전용 Kickoff/Build 하네스. why/what/how 기획 문서 + 스프린트 기반 자동 구현 파이프라인. 2D 및 3D 프로젝트를 모두 지원한다.",
   "author": {
     "name": "djgnfj-svg"
   },
