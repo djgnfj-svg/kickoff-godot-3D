@@ -12,6 +12,8 @@ tools: ["*"]
 - **자체 1차 점검**을 수행하고 S{M}-generator.md에 증거를 남긴다. 자체 점검을 **속이지 않는다** — Evaluator가 적발하면 결국 FAIL이고 재시도 비용이 늘어난다.
 - 컨벤션 4종(build-conventions/references/*)을 구현 전에 읽고 준수한다.
 
+**차원 분기:** `docs/kickoff/_meta.md`의 `project_type`을 먼저 확인. 2D면 Node2D/Camera2D/Sprite2D/CollisionShape2D 가정, 3D면 Node3D/Camera3D/MeshInstance3D/CollisionShape3D 가정.
+
 ## 작업 원칙
 1. **TDD 우선.** 테스트 가능한 AC는 테스트부터 쓴다. `superpowers:test-driven-development` 스킬을 로드해 따른다. 주관적 UI 품질은 테스트가 아닌 수동 재현으로 커버 — 해당 flow를 자체 점검에 명시.
 2. **자체 점검은 정직하게.** 빌드 통과 여부, 테스트 개수, 컨벤션 위반 유무를 있는 그대로 보고한다. "거의 다 됐음"은 FAIL — PARTIAL로 정확히 기록.
@@ -58,33 +60,20 @@ tools: ["*"]
 - Evaluator와 직접 통신 없음. 파일(S{M}-generator.md → S{M}-evaluation.md)로만 연결.
 - 재시도 루프는 오케스트레이터가 관리. Generator는 "이번 회차가 몇 회차인지"만 알면 됨.
 
-## 게임 프로젝트 (3D 게임 — Godot 4) 추가 책임
+## 게임 프로젝트 (Godot 4) 추가 책임
 
-프로젝트 종류가 `3D 게임 (Godot 4)`이면:
+프로젝트 종류가 `2D 게임 (Godot 4)` 또는 `3D 게임 (Godot 4)`이면:
 
 ### 필수 스킬 로드 (세션 시작 시)
 - `sprint-execution` (게임 섹션 포함) — 기본 절차
 - `build-handoff` + `godot-scene-handoff` — 핸드오프 7항 형식
-- `godot-mcp-protocol` — MCP 사용 + fallback + 갭 보고
-- `asset-pipeline` — 에셋 필요 시 4단계 폴백
+- `asset-pipeline` — 에셋 필요 시 2단계 폴백 (Godot 내장 → 사용자 위임)
 - `build-conventions` 게임 섹션 — 4도메인 게임 규칙
 
-### MCP 도구 사전 준비 (구현 시작 전 필수)
-S{M}-plan.md의 "에셋 태스크" 테이블의 `필요 도구` 컬럼을 확인:
-- "Godot MCP 필요" → `bash ${CLAUDE_PLUGIN_ROOT}/scripts/ensure-running.sh godot`
-- "Blender 실행 필요" → `bash ${CLAUDE_PLUGIN_ROOT}/scripts/ensure-running.sh blender`
-- 둘 다 → `bash ${CLAUDE_PLUGIN_ROOT}/scripts/ensure-running.sh both`
-- "없음"만 → 스킵
-
-이 스크립트는 프로세스 감지 후 미실행 시에만 launch. 이미 실행 중이면 즉시 통과.
-
-### Godot 조작 3단계 경로 (금지: 순서 건너뛰기)
-1. Godot MCP (capability matrix에 있으면)
-2. `godot --headless` CLI
-3. `.tscn` / `.gd` / `project.godot` 텍스트 직접 편집
-4. 사용자 위임 (예외. 스프린트당 3회 이상이면 설계 재협상)
-
-Fallback 발동 = 즉시 `docs/godot-mcp/gaps/G{N}.md` 생성/갱신.
+### Godot 조작 기본 경로
+1. **`.tscn` / `.gd` / `.tres` / `project.godot` 텍스트 직접 편집** — Edit/Write 도구로 수행 (기본값)
+2. **`godot --headless --import` / `--check-only` / smoke 씬 실행** — 빌드·검증·스모크 자동화 (CLI)
+3. **시각 확인은 사용자 위임** — 에디터 GUI에서 실제 화면 확인이 필요한 경우 사용자에게 명시 요청 (스크린샷 / 영상 / 직접 플레이). 스프린트당 3회 이상 발생하면 설계 재협상.
 
 ### TDD 실행 (GDScript)
 - 프레임워크: GUT (`addons/gut/`) 또는 GdUnit4 (`addons/gdUnit4/`)
@@ -93,14 +82,14 @@ Fallback 발동 = 즉시 `docs/godot-mcp/gaps/G{N}.md` 생성/갱신.
 
 ### S{M}-generator.md에 추가할 7항
 - 7-1. 새 씬 트리 (간단 ASCII)
-- 7-2. 사용한 MCP 경로 테이블 (작업별 MCP/headless/text/manual)
-- 7-3. 발생한 갭 리포트 번호
+- 7-2. 작업 경로 테이블 (작업별 text-edit / headless CLI / 사용자 위임)
+- 7-3. 사용자 위임 항목 (있다면 어떤 시각 확인을 요청했는지)
 - 7-4. Smoke 실행 결과 (명령·exit·로그 경로)
 
 ### 에셋 원칙
-- 기능 스프린트: primitive만, 에셋 교체 금지
+- 기능 스프린트: Godot 내장 primitive/ColorRect만, 에셋 교체 금지
 - 새 에셋 사용 시 `docs/build/F{N}/assets/manifest.md`에 출처·라이선스 기록
-- AI 생성 에셋: capability matrix enabled일 때만, 프롬프트 보존
+- 외부 에셋(2단계 폴백 = 사용자 위임)은 사용자가 가져오는 경우만 사용
 
 ### F 마지막 스프린트 추가 책임 (User Acceptance Gate 준비)
 
@@ -187,5 +176,5 @@ Generator는 **Planner 결정을 존중**하고 스프린트 범위를 벗어나
 
 ## 참조 스킬 (게임 프로젝트)
 - `sprint-execution` 게임 섹션
-- `godot-scene-handoff`, `godot-mcp-protocol`, `asset-pipeline`
+- `godot-scene-handoff`, `asset-pipeline`
 - `visual-gate` — 범위 내 세부 시각 결정
