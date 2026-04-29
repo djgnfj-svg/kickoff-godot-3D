@@ -406,7 +406,7 @@ docs/build/
 │   │   ├── S{M}-generator.md           # Generator (회차별 덮어쓰지 않음 — 아니, 실제로는 덮어쓴다. git으로 이력)
 │   │   ├── S{M}-evaluation.md          # Evaluator
 │   │   ├── S{M}-retry-{K}.md           # Orchestrator (K=1,2)
-│   │   └── screenshots/                # Evaluator (Playwright 캡처)
+│   │   └── screenshots/                # 사용자 검수 시각 자료 (선택)
 │   │       └── S{M}-AC{k}.png
 │   └── handoffs/
 │       ├── S{M}-context.md             # Orchestrator (스프린트 PASS 후)
@@ -484,7 +484,7 @@ Godot 조작은 .tscn/.gd/.tres/project.godot 텍스트 직접 편집(Edit/Write
 ... sprint-evaluation/SKILL.md 외에 다음도 Read로 로드해라:
 - ${CLAUDE_PLUGIN_ROOT}/skills/godot-scene-handoff/SKILL.md
 또한 docs/kickoff/_meta.md를 먼저 읽어 project_type을 확인한다.
-Playwright 대신 `godot --headless` CLI + 텍스트 검증으로 독립 재현한다. 게임 전용 하드 임계값(크래시 0, 런타임 에러 0, Import 성공) 추가.
+`godot --headless` CLI + 텍스트 검증으로 독립 재현한다. 게임 전용 하드 임계값(크래시 0, 런타임 에러 0, Import 성공) 추가. 시각 확인은 Phase 2.7 사용자 검수로 위임.
 ```
 
 ### 파일 구조 추가 (게임 프로젝트)
@@ -497,8 +497,7 @@ docs/
             └── {name}.md
 ```
 
-### 게임 전용 검증 훅 (Phase 2-2 기본 세트)
-Playwright 대신:
+### 검증 훅 (Phase 2-2 기본 세트)
 - `godot --headless --import` (exit 0)
 - `godot --headless --check-only`
 - GUT/GdUnit4 테스트 실행

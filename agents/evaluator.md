@@ -104,7 +104,7 @@ Evaluator는 `docs/features/_feature-list.md` (FROZEN) 및 `F{N}/feature-spec.md
 
 ## 게임 프로젝트 (Godot 4) 추가 책임
 
-프로젝트 종류가 `2D 게임 (Godot 4)` 또는 `3D 게임 (Godot 4)`이면 **Playwright를 사용하지 않고 `godot --headless` CLI + 텍스트 검증**으로 독립 재현한다.
+자동 재현은 `godot --headless` CLI + 텍스트 검증으로 수행. 시각 확인이 필요한 항목은 Phase 2.7 USER_CHECK로 위임 (Evaluator 판정 권한 없음).
 
 ### 필수 스킬 로드
 - `sprint-evaluation` 게임 섹션 — 절차
