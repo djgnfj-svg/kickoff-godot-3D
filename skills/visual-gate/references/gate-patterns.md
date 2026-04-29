@@ -19,7 +19,7 @@
 
 ---
 
-## 1. `camera-perspective` — 카메라 시점 선택
+## 1. `camera-perspective` — 카메라 시점 선택 [차원: 3D]
 
 **Phase:** Kickoff Phase 1 Step 1-5-3.
 **에이전트:** founder.
@@ -71,7 +71,7 @@
 
 ---
 
-## 2. `capsule-composition` — Steam 캡슐 이미지 구도
+## 2. `capsule-composition` — Steam 캡슐 이미지 구도 [차원: 공용]
 
 **Phase:** Kickoff Phase A why 사이클.
 **에이전트:** hook-strategist.
@@ -123,7 +123,7 @@
 
 ---
 
-## 3. `hud-layout` — HUD 배치
+## 3. `hud-layout` — HUD 배치 [차원: 공용]
 
 **Phase:** Kickoff PA what / Build 스프린트.
 **에이전트:** hook-strategist, planner.
@@ -159,7 +159,7 @@
 
 ---
 
-## 4. `attack-timing` — 공격 프레임 배분
+## 4. `attack-timing` — 공격 프레임 배분 [차원: 공용]
 
 **Phase:** Kickoff PA why 사이클.
 **에이전트:** core-mechanic-designer.
@@ -213,7 +213,7 @@
 
 ---
 
-## 5. `character-silhouette` — 캐릭터 실루엣·비례
+## 5. `character-silhouette` — 캐릭터 실루엣·비례 [차원: 공용]
 
 **Phase:** Kickoff PA what.
 **에이전트:** hook-strategist, core-mechanic-designer.
@@ -257,7 +257,7 @@
 
 ---
 
-## 6. `scene-tree` — Godot 씬 노드 구조
+## 6. `scene-tree` — Godot 씬 노드 구조 [차원: 공용]
 
 **Phase:** Build 스프린트 시작.
 **에이전트:** planner, generator.
@@ -341,7 +341,7 @@
 
 ---
 
-## 8. `level-layout` — 레벨·보스룸 격자
+## 8. `level-layout` — 레벨·보스룸 격자 [차원: 2D]
 
 **Phase:** Build 스프린트.
 **에이전트:** planner.
@@ -381,7 +381,7 @@
 
 ---
 
-## 9. `camera-distance` — 카메라 거리/FOV
+## 9. `camera-distance` — 카메라 거리/FOV [차원: 3D]
 
 **Phase:** Kickoff PA / Build.
 
@@ -418,7 +418,7 @@
 
 ---
 
-## 10. `feature-roadmap` — Feature 목록 확정 로드맵
+## 10. `feature-roadmap` — Feature 목록 확정 로드맵 [차원: 공용]
 
 **Phase:** Kickoff Phase C C-0 (최종본 제시 + 확인).
 **에이전트:** scribe (작성) + founder (제시).
