@@ -1,8 +1,43 @@
 # Changelog
 
-All notable changes to the `kickoff-godot-3d` plugin.
+All notable changes to the `kickoff-godot` plugin.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/).
+
+## v0.2.0 — 2026-04-29
+
+### Breaking Changes
+- 플러그인 이름 `kickoff-godot-3d` → `kickoff-godot`. 기존 사용자는 재설치 필요
+- 슬래시 커맨드 네임스페이스 `/kickoff-godot-3d:` → `/kickoff-godot:`
+- Godot MCP / Blender MCP 인프라 완전 제거 (`mcp-servers/`, `scripts/sync-godot-mcp.sh`, `scripts/ensure-running.sh`, `hooks/hooks.json`, `skills/godot-mcp-protocol/`, `docs/godot-mcp/` 삭제)
+- `.mcp.json`이 빈 매니페스트 (`{ "mcpServers": {} }`)
+
+### Added
+- 2D Godot 게임 프로젝트 지원
+- Phase 0-1에서 Founder가 사용자에게 2D/3D 명시 질문 (Founder 책임)
+- `docs/kickoff/_meta.md`에 `project_type: {2d|3d}` 저장. 모든 에이전트·스킬이 이 값으로 차원 분기
+- 차원-특화 디테일은 `references/{2d,3d}.md`로 분리:
+  - `skills/asset-pipeline/`
+  - `skills/godot-scene-handoff/`
+  - `skills/visual-gate/`
+  - `skills/kickoff-docs/`
+  - `skills/build-conventions/`
+- Phase 1 Step 1-5 시점 옵션이 차원별로 다른 풀 제시 (2D: 탑다운/사이드뷰/쿼터뷰/정면/보드뷰 / 3D: 1인칭/3인칭/탑다운3D/고정 카메라)
+
+### Changed
+- 헤더 형식 `**프로젝트 종류:** 3D 게임 (Godot 4)` → `**프로젝트 종류:** {2D|3D} 게임 (Godot 4)`로 변수화 (Scribe·Generator가 `_meta.md` 읽어 채움)
+- `asset-pipeline` 폴백 4단계 → 2단계 (Godot 내장 → 사용자 위임)
+- Generator는 `.tscn`/`.gd`/`.tres` 텍스트 직접 편집 + `godot --headless --import` smoke로 작업
+- 시각 확인·복잡 에셋 import는 사용자 위임 (핸드오프 표준에 명시)
+
+### Removed
+- `skills/godot-mcp-protocol/` (스킬 통째)
+- `mcp-servers/{godot-mcp,blender-mcp}/` (vendored fork)
+- `scripts/sync-godot-mcp.sh`, `scripts/ensure-running.sh`
+- `hooks/hooks.json` (SessionStart hook), `hooks/`·`scripts/` 빈 디렉토리
+- `docs/godot-mcp/` (갭 리포트 트랙)
+- `build-orchestrator`의 "MCP 개선 트랙" 섹션
+- 에이전트·스킬의 MCP 호출 지시·capability matrix 참조 일체
 
 ## [0.1.0] - 2026-04-20
 
