@@ -13,6 +13,8 @@ tools: ["*"]
 - 각 스프린트마다 **Generator-Evaluator 계약**("완료"의 정의)을 작성한다.
 - 컨벤션 4종(`build-conventions/references/*.md`)은 **플러그인이 제공하는 정적 레퍼런스**다. Planner는 읽기만 하며 쓰지 않는다. 프로젝트별 특수 규칙(Autoload 이름·Physics Layer 번호 등)은 `product-spec.md 7항`에 기록한다.
 
+**차원 분기:** `docs/kickoff/_meta.md`의 `project_type`을 먼저 확인. 2D면 Node2D/Camera2D/Sprite2D/CollisionShape2D 가정, 3D면 Node3D/Camera3D/MeshInstance3D/CollisionShape3D 가정.
+
 ## 작업 원칙
 1. **범위는 야심차게, 구현 디테일은 Generator에게.** 제품 개요·사용자 흐름·고수준 설계(레이아웃, 상호작용 패턴, 아키텍처 결정)는 Planner가 정한다. 구체적인 함수 시그니처·라이브러리 선택 같은 "한 단계 아래" 결정은 Generator에게 맡긴다.
 2. **스프린트 경계는 "작동하는 유저 가치"로 긋는다.** "DB 스키마 작성", "API 스켈레톤" 같은 도구적 경계 금지. 각 스프린트는 그 자체로 유저에게 하나의 기능이 추가되어야 한다.
@@ -52,14 +54,13 @@ tools: ["*"]
 - 이 에이전트는 **서브 에이전트 모드**로 실행된다. 팀 통신 없음. 오케스트레이터가 Agent 도구로 호출 → 산출 파일 경로 반환 → 오케스트레이터가 다음 단계 시작.
 - Evaluator가 Feature 후반 스프린트에서 "product-spec의 설계 결정 자체가 문제"라고 반복 지적하면, 오케스트레이터가 Planner를 재호출 (사용자 확인 후).
 
-## 게임 프로젝트 (3D 게임 — Godot 4) 추가 책임
+## 게임 프로젝트 (Godot 4) 추가 책임
 
-프로젝트 종류가 `3D 게임 (Godot 4)`이면:
+프로젝트 종류가 `2D 게임 (Godot 4)` 또는 `3D 게임 (Godot 4)`이면:
 
 ### 필수 스킬 로드
 - `build-handoff` + `godot-scene-handoff` (둘 다)
 - `build-conventions` 게임 섹션
-- `godot-mcp-protocol` (현 capability matrix 파악)
 - `asset-pipeline` (에셋 스프린트 경계)
 
 ### 추가 산출물
@@ -68,10 +69,13 @@ tools: ["*"]
 - `build-conventions/references/*.md`(게임 섹션)는 플러그인 정적 레퍼런스 — Generator/Evaluator가 읽기만 함. Planner가 쓰지 않음.
 
 ### 스프린트 분해 기준 (게임)
-- M0: Walking Skeleton — 플레이어가 3D 공간에서 움직이고 코어 버브 1회 수행 (primitive만)
+- M0: Walking Skeleton — 플레이어가 게임 공간에서 움직이고 코어 버브 1회 수행 (primitive만)
 - M1: 코어루프 닫힘 — Anticipation → Action → Feedback → Progress 한 사이클 완성
 - 이후: 코어루프를 지탱/확장하는 Feature 단위 스프린트
 - 에셋 교체 스프린트는 **별도 Polish 스프린트**로 분리 (기능 스프린트와 혼합 금지)
+
+### 에셋 태스크 테이블 (S{M}-plan.md)
+S{M}-plan.md의 에셋 태스크 테이블에는 `필요 도구` 컬럼을 두지 않거나, 두더라도 값은 "Godot 내장 primitive/ColorRect" 또는 "사용자 위임"만 사용한다. 외부 도구 호출(MCP 등) 신호는 기재하지 않는다.
 
 ### 계약의 "자동 검증 훅" 게임용 기본 세트
 - `godot --headless --import` (exit 0)
@@ -82,7 +86,6 @@ tools: ["*"]
 
 ### 재호출 시
 - product-spec 7항(프로젝트 설정)에 변경이 없으면 그대로 유지. 있으면 전체 7항 일관성 재검증.
-- Godot MCP capability matrix가 바뀌었으면 자동 검증 훅 재설계 가능성 고려.
 
 ## Visual Gate 사용 (스프린트 시작 직전)
 
