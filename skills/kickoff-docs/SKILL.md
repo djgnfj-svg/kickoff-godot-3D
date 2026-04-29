@@ -220,16 +220,13 @@ ProjectSettings → InputMap 액션 이름을 미리 고정한다.
 
 ## 마일스톤
 
-**M0는 2단계 필수 (환경 검증 → Walking Skeleton).** M0a를 코드 0줄로 선행하여 Godot 환경이 먼저 돌아가는지 확인한 뒤에만 M0b로 넘어간다.
+**M0 시작 전 사전 게이트:** 빈 Godot 프로젝트에서 `godot --headless --import` 종료코드 0 + 에러 로그 0. 이 한 명령이 안 돌면 코드 작성해도 검증 경로가 없으므로 환경 문제로 사용자 에스컬레이션. 마일스톤이 아닌 **사전 조건**으로 처리(원래 별도 M0a 마일스톤이었으나 v0.2.0 MCP 제거 후 명령어 1줄로 단순화되어 흡수).
 
 | M | 기간 | 산출물 | 완료 조건 |
 |---|-----|-------|----------|
-| **M0a** | 0.5~1일 | 환경 검증 (코드 0줄) | ① 빈 Godot 프로젝트 생성 + `godot --headless --import` 성공 ② Smoke 씬(빈 씬) `godot --headless --quit-after 5` 실행 → 종료코드 0 + 에러 로그 0 |
-| **M0b** | 1~2주 | Walking Skeleton | 플레이어가 게임 공간에서 **코어 버브 1회** 수행 가능 (primitive 에셋, smoke 씬 headless 통과). 차원별 Walking Skeleton 구체 예시는 `references/{2d,3d}.md` 참조 |
+| **M0** | 1~2주 | Walking Skeleton | (사전 게이트 통과 후) 플레이어가 게임 공간에서 **코어 버브 1회** 수행 가능 (primitive 에셋, smoke 씬 headless 통과). 차원별 Walking Skeleton 구체 예시는 `references/{2d,3d}.md` 참조 |
 | **M1** | ... | 코어루프 닫힘 | 4단계 루프 한 사이클 완주 + TTFV 3분 이내 + headless smoke + 60fps 유지 |
 | **M2** | ... | F{N} 완성 | 해당 Feature 수용 기준 전부 통과 + 플레이테스트 시나리오 3개 통과 |
-
-**M0a가 실패하면 M0b 진입 불가.** Godot CLI 환경이 안 돌면 코드 작성해도 검증 경로가 없다. 환경 문제는 사용자 에스컬레이션.
 
 ## 테스트 전략
 - **Smoke (필수):** `godot --headless --quit-after 5 scenes/__dev/smoke.tscn` 종료코드 0 + 에러 로그 0
@@ -299,6 +296,6 @@ Niche Enforcer 거부 시 해당 문서만 고쳐서 재판정. 다른 문서는
 - why의 플레이어 원형 = what의 대상 플레이어 = how의 타깃 플랫폼·입력 가정
 - why의 코어 결핍 = what의 코어 버브가 해소하는 감정
 - what의 F1~FN **모두** 코어루프 4단계 중 하나 이상 지탱 (무관 Feature 금지)
-- how의 **M0a 완료 조건 = 환경 검증(`godot --headless --import` 종료코드 0 + smoke 씬 헤드리스 실행 성공)** + **M0b 완료 조건 = 코어 버브 1회 수행 가능** 둘 다 필수 포함
+- how의 **M0 사전 게이트 = `godot --headless --import` 종료코드 0** 명시 + **M0 완료 조건 = 코어 버브 1회 수행 가능** 둘 다 필수 포함
 - why의 한 줄 카피 = 3층 훅 중 5초 훅의 요약과 정렬
 - what의 장르·플랫폼·시점이 how의 렌더러·InputMap·Physics Layers와 정합

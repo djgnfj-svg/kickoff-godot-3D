@@ -34,10 +34,10 @@ tools: ["*"]
 
 ### 정적 구조 (Generator가 첫날부터 막히지 않을 최소 구체성)
 
-1. **M0 2단계 정의** — M0가 **M0a(환경 검증) + M0b(Walking Skeleton)** 2단계로 쪼개져 있는가?
-   - **M0a** (코드 0줄): 빈 프로젝트 `godot --headless --import` 성공 + 빈 smoke 씬 실행 (에러 로그 0). 에디터 GUI 확인이 필요한 부분은 사용자 위임.
-   - **M0b** (Walking Skeleton): 플레이어가 게임 공간에서 코어 버브 1회 수행 가능 (Godot 내장 primitive)
-   - M0a 생략되거나 M0b만 있으면 거부. "프로젝트 스캐폴딩"만이어도 거부.
+1. **M0 정의 — Walking Skeleton + 사전 게이트** — M0가 다음 둘 다 명시됐는가?
+   - **사전 게이트** (코드 0줄, 마일스톤 아님): 빈 프로젝트 `godot --headless --import` 종료코드 0. 통과 못 하면 M0 진입 불가.
+   - **M0 완료 조건** (Walking Skeleton): 플레이어가 게임 공간에서 코어 버브 1회 수행 가능 (Godot 내장 primitive)
+   - "프로젝트 스캐폴딩"만이어도 거부 — 코어 버브 수행이 빠지면 Walking Skeleton 아님.
 2. **M1 코어루프 닫힘** — 4단계 루프(Anticipation → Action → Feedback → Progress) 한 사이클 + TTFV 3분 이내 + smoke 씬이 M1 완료 조건에 박혀있는가?
 3. **구현 구체성 최소 세트** — 아래 3개가 how.md에 **숫자·이름 수준으로** 박혀있는가? 하나라도 없으면 Generator가 첫날부터 막힘.
    - **Godot 버전:** `4.x.y` 패치 레벨까지 (예: `4.2.2`)
@@ -57,16 +57,15 @@ Build Auditor는 Generator가 **Day 1·Day 2·Day 3에 실제로 수행할 GDScr
 ### 기본 템플릿 (실제 게임에 맞춰 각색)
 
 ```
-Day 0 (M0a, 코드 0줄): 빈 프로젝트 생성 + `godot --headless --import` +
-       빈 smoke 씬 실행 성공 (에러 로그 0). 에디터 GUI 확인은 사용자 위임.
-       여기 실패하면 Day 1 진입 안 함.
+Day 0 (사전 게이트, 코드 0줄): 빈 프로젝트 생성 + `godot --headless --import`
+       성공 (에러 로그 0). 여기 실패하면 Day 1 진입 안 함, 사용자 에스컬레이션.
 Day 1: `project.godot` 스캐폴딩, primitive 플레이어 씬
        (3D: CapsuleMesh + CharacterBody3D / 2D: Sprite2D + CharacterBody2D),
        InputMap에서 코어 버브 액션 정의, WASD 이동 → 첫 커밋
 Day 2: 코어 버브 입력 처리 + 최소 피드백 1개(파티클/사운드/카메라셰이크 중 택1),
        smoke 씬에서 버브 1회 수행 가능한 primitive 타겟 배치
 Day 3: CI에 `godot --headless --import` + smoke 씬 실행 통과 → 첫 PR
-       (M0b Walking Skeleton 달성)
+       (M0 Walking Skeleton 달성)
 ```
 
 이 경로가 **막힘 없이** 그려져야 한다. 어디서든 "잠깐, how.md에 이게 없는데?" 하는 순간이 오면 거기가 바로 CHANGES_REQUESTED 사유.
@@ -75,7 +74,7 @@ Day 3: CI에 `godot --headless --import` + smoke 씬 실행 통과 → 첫 PR
 
 두 거부 신호는 모두 **"뭘 할지 몰라서 막힘"의 강한 징후**다.
 
-1. **M0a 누락 또는 M0b가 "스캐폴딩"으로만 기술됨** — M0a(빈 프로젝트 import + smoke 실행 검증) 단계가 아예 없거나, M0b가 "프로젝트 구조 설정 + Autoload 정의 + 씬 레이어 분리"만 있고 **코어 버브 수행이 없음**. Walking Skeleton은 실제로 **돌아가는** 최소 게임이어야 하며, 그 전에 빈 프로젝트의 import/smoke가 먼저 검증되어야 한다.
+1. **사전 게이트 누락 또는 M0가 "스캐폴딩"으로만 기술됨** — `godot --headless --import` 사전 게이트가 아예 명시 안 됐거나, M0가 "프로젝트 구조 설정 + Autoload 정의 + 씬 레이어 분리"만 있고 **코어 버브 수행이 없음**. Walking Skeleton은 실제로 **돌아가는** 최소 게임이어야 하며, 사전에 빈 프로젝트 import가 검증되어야 한다.
 2. **구현 지시가 통째로 빠진 항목** — 예: "플레이어 이동" 기능이 있는데 InputMap 액션 이름도 없고 키 매핑도 없음. 예: "적 AI 배치"가 있는데 Physics Layer 번호 미지정. 한 항목이 완전히 비면 Generator가 추측으로 채워야 하는데, 그 추측이 틀리면 재작업.
 
 ## 작업 원칙
@@ -108,7 +107,7 @@ Day 3: CI에 `godot --headless --import` + smoke 씬 실행 통과 → 첫 PR
 
 ## 체크리스트 결과 (6항)
 
-- [ ] 1. M0 2단계 정의 (M0a 환경 검증 + M0b Walking Skeleton = 코어 버브 1회)
+- [ ] 1. M0 정의 (사전 게이트 `godot --headless --import` + M0 Walking Skeleton = 코어 버브 1회)
 - [ ] 2. M1 코어루프 닫힘 (4단계 + TTFV 3분 + smoke)
 - [ ] 3. 구현 구체성 최소 세트 (Godot 버전 / InputMap / Physics Layers)
 - [ ] 4. Godot 텍스트 편집 + headless CLI 경로 가능성
