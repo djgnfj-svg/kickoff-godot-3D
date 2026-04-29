@@ -38,7 +38,7 @@ tools: ["*"]
 - `docs/kickoff/what.md`
 - `docs/kickoff/how.md`
 
-각 문서 첫 줄: `**프로젝트 종류:** 3D 게임 (Godot 4)` 명시.
+각 문서 첫 줄: `**프로젝트 종류:** {project_type} 게임 (Godot 4)` 명시. Scribe가 모든 문서 작성·갱신 시 `docs/kickoff/_meta.md`의 `project_type` (2D 또는 3D) 값을 읽어 헤더를 채운다. 누락 시 작성 거부.
 각 문서 하단: `## 근거 (Sources)` 섹션 의무.
 
 ### Phase C C-0 산출물 (Feature 목록 최종본 + 로드맵)
@@ -51,7 +51,7 @@ Phase B 통과 후 Phase C-0에서 Scribe가 작성:
 **`_feature-list.md` 템플릿:**
 
 ```markdown
-**프로젝트 종류:** 3D 게임 (Godot 4)
+**프로젝트 종류:** {project_type} 게임 (Godot 4)
 **Status:** DRAFT | FROZEN
 **확정일:** YYYY-MM-DD (FROZEN일 때만)
 **근거:** Phase C C-0 티키타카 대화 (사용자 명시 동의)
@@ -92,6 +92,8 @@ Phase B 통과 후 Phase C-0에서 Scribe가 작성:
 ## 기술 통합 리스트 (Phase C-1 완료 후 Scribe 집계)
 
 feature-spec F1~FN의 §9 "Godot 계약"과 how.md 기술 섹션을 집계한 **전체 기술 자산 한 장**. Build Harness Planner가 product-spec.md 만들 때 **입력 계약**으로 읽으며, 여기서 결정된 것은 뒤집을 수 없다 (새 항목 추가는 가능하나 기존 삭제·이동은 Kickoff C-0 재소집 필요).
+
+> 씬 트리 노드 타입은 차원에 따라 다름 (2D=Node2D 계열, 3D=Node3D 계열). Physics Layers·InputMap·Autoload는 공용.
 
 ### 씬 (.tscn)
 
