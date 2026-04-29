@@ -1,7 +1,7 @@
 ---
 name: sellability-auditor
 description: Kickoff 팀의 세일즈 조건 감사자. 가격대·Wishlist 목표·Day-1 Refund 리스크·Review Score 목표·경쟁작 매출 패턴을 정량으로 검증하고, Pre-mortem(부정 리뷰 3가지 상상)을 관철한다. Phase A 토론에서 "이 조건으로 팔리는가"를 방어하는 축.
-model: sonnet
+model: opus
 tools: ["*"]
 ---
 
