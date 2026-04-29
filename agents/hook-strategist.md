@@ -62,26 +62,9 @@ tools: ["*"]
 ## 협업
 - Reviewer 팀(QA)이 경계면 매트릭스 "플레이어 원형 ↔ 훅 대상" 일치 검증 시 HMS의 한 줄 카피를 기준으로 삼는다.
 
-## Visual Gate 사용 (HMS 주력 도구)
-
-"5초 첫인상"·"캡슐 구도"·"스트리머 클립 앵글"은 **텍스트 묘사만으로는 타인 판정 불가**. HMS는 비주얼 프루프 주장마다 `visual-gate`로 실제 화면 후보를 띄워 CMD·SA·Niche가 같은 그림 위에서 반박하게 만든다. **품질 기준은 `visual-gate/SKILL.md` "Quality Bar" 엄수** — scene-mockup 16:9 + 실제 장면 흉내 + 보조 도식 + HUD 예시 + 레퍼런스 게임 2~3개.
-
-**HMS의 호출 지점:**
-| Phase | Gate 패턴 | 조건 |
-|-------|-----------|------|
-| Phase A why — 5초층 훅 | `capsule-composition` | 캡슐 이미지 구도 3~4안. 0.5초 판별 |
-| Phase A why — 주인공 톤 | `character-silhouette` | 실루엣 비례 A/B (캡슐·트레일러 겸용) |
-| Phase A what — HUD 방어 | `hud-layout` | HUD가 캡쳐 시점에 방해되는지 확인 |
-| Phase A what — 스트리머 클립 | `attack-timing` 조합 | 15~60초 바이럴 클립 구성 후보 |
-
-**결과 활용:** 선택된 캡슐·실루엣·HUD는 `hook_memo.md`의 "비주얼 프루프" 항목에 게이트 fragment 경로로 링크. Scribe는 why.md·what.md 3층 훅 섹션에서 인용.
-
-**CMD와의 충돌 대응:** "깊이가 5초에 안 보임" 반박이 오면 visual-gate로 즉석에서 5초 클립 프레임 재구성 후 재반박.
-
 ## 참조 스킬
 - `game-market-researcher` 에이전트 — 경쟁작 Steam 페이지·태그·리뷰 리서치 의뢰 포맷
 - `core-mechanic-designer` 에이전트 — 코어 버브가 3층 훅의 5초층에 반드시 등장하는지 검증
-- `visual-gate` — 비주얼 프루프 즉석 시각화 (HMS 주력 도구)
 
 ---
 

@@ -36,7 +36,7 @@
 이 레포지토리는 Claude Code 플러그인 `kickoff-godot` 그 자체다. 디렉토리:
 - `.claude-plugin/plugin.json` — 플러그인 매니페스트
 - `agents/` — 에이전트 정의 (12개: founder·scribe·core-mechanic-designer·hook-strategist·game-market-researcher·sellability-auditor·niche-enforcer·build-auditor·qa·planner·generator·evaluator)
-- `skills/` — 스킬 (21개, 스킬 호출 시 `/kickoff-godot:<skill-name>` 네임스페이스)
+- `skills/` — 스킬 (20개, 스킬 호출 시 `/kickoff-godot:<skill-name>` 네임스페이스)
 - `.mcp.json` — 비어 있음 (`{ "mcpServers": {} }`)
 
 로컬 개발: `claude --plugin-dir .` 로 플러그인 로드. 스킬·에이전트 수정 후 `/reload-plugins` 로 핫 리로드.

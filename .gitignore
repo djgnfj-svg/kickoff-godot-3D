@@ -38,6 +38,3 @@ export_presets.cfg
 
 # Claude Code 로컬 (사용자 머신 전용)
 .claude/settings.local.json
-
-# visual-gate 세션 (브라우저 선택 UI)
-.superpowers/

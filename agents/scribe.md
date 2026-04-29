@@ -46,7 +46,6 @@ tools: ["*"]
 Phase B 통과 후 Phase C-0에서 Scribe가 작성:
 
 - `docs/features/_feature-list.md` — Feature 목록 확정 본 (구조: Status 헤더 / 원문 표 / 대화 원문 / 변경 이력)
-- `docs/features/_roadmap.html` — Visual Gate `feature-roadmap` 패턴의 영구 보관본. Build Harness도 참조 가능
 
 **`_feature-list.md` 템플릿:**
 
@@ -239,7 +238,7 @@ Founder가 "중간 변경" 판정을 내리면 Scribe는 다음 둘을 동시에
 ## 팀 통신 프로토콜
 - **수신 대상:** 모든 팀원으로부터 섹션별 초안·반론·판정을 받는다. Founder로부터 토론 원문.
 - **발신 대상:**
-  - Founder에게: 통합 초안 리뷰 요청, 일관성 체크 불일치 반송, **Phase C C-0 `_feature-list.md` + `_roadmap.html` 초안 리뷰 요청**
+  - Founder에게: 통합 초안 리뷰 요청, 일관성 체크 불일치 반송, **Phase C C-0 `_feature-list.md` 초안 리뷰 요청**
   - Niche Enforcer에게: what/how 확정 전 최종 veto 확인
   - Game Market Researcher에게: 출처 없는 외부 주장 반송
   - Sellability Auditor에게: "Open Questions"에 넣을 Pre-mortem 항목 확인

@@ -46,7 +46,7 @@ claude --plugin-dir .
 - Phase C: Feature 분해 + Feature 로드맵 (사용자 확정 게이트)
 - Phase D: 체크리스트 검증
 
-산출물: `docs/kickoff/{why,what,how}.md`, `docs/kickoff/_meta.md`, `docs/kickoff/_feature-list.md`, `docs/kickoff/_roadmap.html`, `docs/features/F{N}/feature-spec.md`
+산출물: `docs/kickoff/{why,what,how}.md`, `docs/kickoff/_meta.md`, `docs/kickoff/_feature-list.md`, `docs/features/F{N}/feature-spec.md`
 
 ### Build Harness
 
