@@ -127,4 +127,4 @@ placeholder 에셋을 사용한 노드/리소스 이름에 `_placeholder` 접미
 | 날짜 | 변경 | 사유 |
 |------|------|------|
 | 2026-04-16 | 초안 (4단계 폴백) | Build Harness Godot 전환, 에셋 폴백 체계 도입 |
-| 2026-04-29 | 2단계 폴백으로 축소 + 차원별 placeholder references 분리 (2d.md / 3d.md). AI capability matrix 제거 | v0.2.0 — MCP·AI 자동화 부채 제거. 에셋 제작은 사용자 영역으로 일원화, 하네스는 manifest+import 검증만 담당 |
+| 2026-04-29 | 2단계 폴백으로 축소 + 차원별 placeholder references 분리 (2d.md / 3d.md) | v0.2.0 — 자동화 부채 제거. 에셋 제작은 사용자 영역으로 일원화, 하네스는 manifest+import 검증만 담당 |

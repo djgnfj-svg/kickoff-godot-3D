@@ -1,15 +1,15 @@
 {
-  "name": "kickoff-godot-3d-marketplace",
+  "name": "kickoff-godot-marketplace",
   "owner": {
     "name": "djgnfj-svg",
     "url": "https://github.com/djgnfj-svg"
   },
   "plugins": [
     {
-      "name": "kickoff-godot-3d",
+      "name": "kickoff-godot",
       "source": "./",
-      "description": "3D 게임(Godot 4) 전용 Kickoff/Build 하네스. why/what/how 기획 문서 + 스프린트 기반 자동 구현 파이프라인. Godot MCP와 Blender MCP를 vendored fork로 포함.",
-      "version": "0.1.0"
+      "description": "2D/3D Godot 4 게임 프로젝트용 Kickoff/Build 하네스. why/what/how 기획 문서 + 스프린트 기반 자동 구현 파이프라인.",
+      "version": "0.2.0"
     }
   ]
 }

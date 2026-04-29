@@ -173,8 +173,8 @@ As a {플레이어 원형}, I want to {코어 버브 또는 버브 보조 동작
 
 ## 10. 의존성
 - **내부 Feature:** 이 Feature보다 먼저 필요한 다른 Feature (F{M})
-- **Godot MCP capability:** 이 Feature 구현에 필요한 MCP 기능 (없으면 fallback 경로)
-- **에셋 의존:** placeholder로 가능한가 / 고급 에셋 필요한가 (asset-pipeline 4단계 중 어디)
+- **에디터/도구 의존:** 이 Feature 구현에 필요한 Godot 에디터·CLI 동작 (없으면 사용자 위임)
+- **에셋 의존:** placeholder로 가능한가 / 고급 에셋 필요한가 (asset-pipeline 2단계 중 어디)
 
 ## 11. 관측성
 - **이벤트:** {트래킹할 플레이어 행동 — 예: "core_verb_success", "core_verb_fail"}

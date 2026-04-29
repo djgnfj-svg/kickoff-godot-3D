@@ -1,10 +1,10 @@
-# Node (MCP 서버 의존성)
+# Node
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Python (Blender MCP 등)
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -38,15 +38,6 @@ export_presets.cfg
 
 # Claude Code 로컬 (사용자 머신 전용)
 .claude/settings.local.json
-
-# MCP 서버 빌드 결과물 (소스만 추적, SessionStart hook이 ${CLAUDE_PLUGIN_DATA}에 빌드)
-mcp-servers/*/build/
-mcp-servers/*/dist/
-
-# Blender MCP clone 잔재 (업스트림에 있는 불필요 파일)
-mcp-servers/blender-mcp/.DS_Store
-mcp-servers/blender-mcp/.python-version
-mcp-servers/blender-mcp/uv.lock
 
 # visual-gate 세션 (브라우저 선택 UI)
 .superpowers/

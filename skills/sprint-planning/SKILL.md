@@ -42,7 +42,7 @@ Planner 에이전트의 작업 표준. `build-handoff` 스킬의 핸드오프 #1
 | 4 | 코어 버브 구현 측면 | 필수 — 스프린트 분류 |
 | 7.3 | 수용 기준 Given/When/Then | 필수 — Evaluator 자동 테스트 변환 |
 | 9 | Godot 계약 (씬·스크립트·Autoload·Physics Layers·InputMap) | 필수 — 구현 구체성 |
-| 10 | 의존성 (선행 F, MCP capability) | 필수 — 스프린트 순서 |
+| 10 | 의존성 (선행 F, 에디터/도구 의존) | 필수 — 스프린트 순서 |
 | 11 | 관측성 | 권장 — Evaluator 계측 검증 |
 | 12 | 실패 모드 | 권장 — Evaluator 체크 |
 | 13 | Pre-mortem | 권장 — 리스크 인식 |

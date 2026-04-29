@@ -453,19 +453,18 @@
         <div class="hud-slot" data-pos="top-left" style="background:transparent;border:1px solid var(--scene-ink);padding:4px 8px">Godot Editor</div>
         <div class="hud-slot" data-pos="top-right" style="background:transparent;border:1px solid var(--scene-ink);padding:4px 8px">Blender Editor</div>
         <div class="hud-slot" data-pos="middle-center" style="background:transparent;border:1px dashed var(--scene-accent);padding:8px 16px">
-          빈 3D 씬 (smoke 통과)
+          빈 씬 (smoke 통과)
         </div>
       </div>
     </div>
     <div class="card-body">
-      <h3>M0a · MCP 환경 검증</h3>
-      <p><strong>보이는 것:</strong> Godot + Blender 에디터 창 둘 다 열림, 빈 프로젝트 smoke 실행 성공.</p>
+      <h3>M0a · 환경 검증</h3>
+      <p><strong>보이는 것:</strong> 빈 Godot 프로젝트 헤드리스 import + smoke 실행 성공.</p>
       <p><strong>확인:</strong></p>
       <ul style="margin:4px 0;padding-left:18px;font-size:0.88em">
-        <li>Godot MCP 호출 시 에디터 창 화면에 뜸</li>
-        <li>Blender MCP 호출 시 블렌더 창 화면에 뜸</li>
         <li><code>godot --headless --import</code> 에러 로그 0</li>
-        <li>빈 3D 씬 열어 종료 시 크래시 없음</li>
+        <li>smoke 씬 <code>godot --headless --quit-after 5</code> 종료코드 0</li>
+        <li>빈 씬 열어 종료 시 크래시 없음</li>
       </ul>
       <p><strong>순서:</strong> 0 / <strong>의존:</strong> ―</p>
     </div>
