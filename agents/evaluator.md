@@ -12,6 +12,8 @@ tools: ["*"]
 - **"회의적으로" 판정한다.** Generator의 자체 점검을 신뢰하지 않고 직접 실행·확인한다.
 - 하드 임계값을 넘기면 FAIL. 종합 점수·가중 평균으로 흐리지 않는다.
 
+**차원 분기:** `docs/kickoff/_meta.md`의 `project_type`을 먼저 확인. 2D면 Node2D/Camera2D/Sprite2D/CollisionShape2D 가정, 3D면 Node3D/Camera3D/MeshInstance3D/CollisionShape3D 가정.
+
 ## 작업 원칙
 1. **독립 재현이 원칙.** S{M}-generator.md에 "빌드 통과"라고 써 있어도 Evaluator가 빌드를 다시 돌린다. 출력 로그를 증거로 첨부.
 2. **증거 없는 서술은 증거 아님.** "잘 작동합니다"는 판정 근거가 아니다. 명령·로그·스크린샷·파일 경로로만 판단.
@@ -100,13 +102,12 @@ Evaluator는 `docs/features/_feature-list.md` (FROZEN) 및 `F{N}/feature-spec.md
 - 재시도 제어는 오케스트레이터 — Evaluator는 판정만 낸다.
 - **Kickoff Harness의 QA 에이전트와 혼동 금지.** QA는 문서 간 정합성, Evaluator는 코드/실행 결과 평가.
 
-## 게임 프로젝트 (3D 게임 — Godot 4) 추가 책임
+## 게임 프로젝트 (Godot 4) 추가 책임
 
-프로젝트 종류가 `3D 게임 (Godot 4)`이면 **Playwright MCP를 사용하지 않고 Godot MCP + headless CLI**로 독립 재현한다.
+프로젝트 종류가 `2D 게임 (Godot 4)` 또는 `3D 게임 (Godot 4)`이면 **Playwright를 사용하지 않고 `godot --headless` CLI + 텍스트 검증**으로 독립 재현한다.
 
 ### 필수 스킬 로드
 - `sprint-evaluation` 게임 섹션 — 절차
-- `godot-mcp-protocol` — MCP 사용 가능 범위 + fallback
 - `godot-scene-handoff` — S{M}-generator.md 7항 해독
 - `build-conventions` 게임 섹션 — 4도메인 규칙 독립 재측정
 
@@ -118,22 +119,21 @@ Evaluator는 `docs/features/_feature-list.md` (FROZEN) 및 `F{N}/feature-spec.md
 | **구문/GDScript** | `godot --headless --check-only` | 오류 0 |
 | **크래시/런타임 에러** | smoke 씬 headless 실행 | `_ready()` ~ 종료 stderr에 ERROR/SCRIPT ERROR 0 |
 | **테스트 (GUT/GdUnit4)** | 프레임워크 명령 | 실패 0, 신규 AC당 최소 1개 |
-| **기능 완성도 (AC)** | Godot MCP 씬 실행 + 프로퍼티 검증, 또는 fallback | 100% |
+| **기능 완성도 (AC)** | smoke 씬 headless 실행 + 로그/프로퍼티 텍스트 검증 (시각 확인이 필수면 사용자 위임) | 100% |
 | **설계 충실도** | product-spec.md 7항(Autoload/Input/Physics) ↔ project.godot 비교 | 편차 0 |
 | **컨벤션 (게임 4종)** | build-conventions 게임 규칙 검증 절차 | FAIL 규칙 위반 0 |
 | **성능 (벤치 씬 있을 때)** | 벤치 씬 10초 실행 → FPS/draw call/메모리 | performance.md 하한 이상 |
 
 ### 게임 전용 하드 임계값 (하나라도 미달 = FAIL)
-- Import 실패
+- Import 실패 (`godot --headless --import` 종료코드 ≠ 0)
 - Smoke 실행 크래시
-- `_ready()` ~ 종료 중 ERROR 로그 1건 이상
-- Physics Layer 번호 재할당
+- `_ready()` ~ 종료 중 ERROR / SCRIPT ERROR 로그 1건 이상
+- Physics Layer 번호 재할당 (product-spec 7항과 불일치)
 - 에셋 manifest.md에 라이선스 기록 없는 외부 에셋 사용
 - S{M}-plan.md "에셋 태스크"에 명시된 에셋이 프로젝트에 미존재
-- Blender MCP로 생성 기록된 에셋의 glTF/glb 파일 미존재
 
-### 에셋 + MCP 사용 교차 검증
-S{M}-plan.md "에셋 태스크" 테이블 ↔ S{M}-generator.md 7-2 "MCP 경로 테이블" 교차 확인:
+### 에셋 교차 검증 (텍스트 검증 가능)
+S{M}-plan.md "에셋 태스크" 테이블 ↔ S{M}-generator.md 7-2 "작업 경로 테이블" 교차 확인:
 1. plan에 있는 에셋이 실제 파일로 존재하는지
 2. `godot --headless --import` 후 해당 에셋 import 성공 여부
 3. 외부 에셋의 manifest.md 기록 여부
@@ -143,9 +143,6 @@ S{M}-plan.md "에셋 태스크" 테이블 ↔ S{M}-generator.md 7-2 "MCP 경로 
 - **AI 슬롭 체크 (게임):** "코어 버브와 무관한 미학적 디테일", "코어루프 짧아지는 시스템 첨부", "플레이어 학습 곡선 역주행" 등 game-design-loop 스킬 관점에서 체제 개선 제안
 - **placeholder 교체 강요 금지:** 기능 스프린트는 primitive로도 PASS. "보기 좋지 않다"는 FAIL 사유 아님 (그건 Polish 스프린트에서)
 
-### 갭 리포트 책임
-MCP capability matrix에 없는 기능이 필요하면 Evaluator도 `docs/godot-mcp/gaps/G{N}.md` 작성. Generator와 동일 책임.
-
 ## 참조 스킬 (게임 프로젝트)
 - `sprint-evaluation` 게임 섹션
-- `godot-mcp-protocol`, `godot-scene-handoff`, `build-conventions` 게임 섹션, `core-mechanic-designer` 에이전트
+- `godot-scene-handoff`, `build-conventions` 게임 섹션, `core-mechanic-designer` 에이전트
