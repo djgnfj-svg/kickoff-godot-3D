@@ -466,43 +466,35 @@ Phase 0-0에서 **게임 프로젝트**로 판별되면 아래를 적용한다.
 ```
 ... sprint-planning/SKILL.md 외에 다음도 Read로 로드해라:
 - ${CLAUDE_PLUGIN_ROOT}/skills/godot-scene-handoff/SKILL.md
-- ${CLAUDE_PLUGIN_ROOT}/skills/godot-mcp-protocol/SKILL.md
 - ${CLAUDE_PLUGIN_ROOT}/skills/asset-pipeline/SKILL.md
-이 프로젝트는 3D 게임(Godot 4)이므로 product-spec.md에 7항(Godot 프로젝트 설정), 각 S{M}-plan.md에 7항(Godot 영향)을 포함해야 한다.
+또한 docs/kickoff/_meta.md를 먼저 읽어 project_type(2D 게임/3D 게임)을 확인한 뒤 그에 맞는 노드 가정으로 작업한다.
+이 프로젝트는 Godot 4 게임이므로 product-spec.md에 7항(Godot 프로젝트 설정), 각 S{M}-plan.md에 7항(Godot 영향)을 포함해야 한다.
 ```
 
 **Generator 호출 (Phase 2-1, 2-5):**
 ```
 ... sprint-execution/SKILL.md 외에 다음도 Read로 로드해라:
 - ${CLAUDE_PLUGIN_ROOT}/skills/godot-scene-handoff/SKILL.md
-- ${CLAUDE_PLUGIN_ROOT}/skills/godot-mcp-protocol/SKILL.md
 - ${CLAUDE_PLUGIN_ROOT}/skills/asset-pipeline/SKILL.md
-Godot 조작은 MCP → headless CLI → 텍스트 편집 → 사용자 위임 순서로 시도한다. 각 fallback 발동 시 docs/godot-mcp/gaps/G{N}.md 생성/갱신 의무. S{M}-generator.md에 7항(Godot 산출 요약) 포함.
+또한 docs/kickoff/_meta.md를 먼저 읽어 project_type을 확인한다.
+Godot 조작은 .tscn/.gd/.tres/project.godot 텍스트 직접 편집(Edit/Write) + `godot --headless --import` smoke를 기본 경로로 사용한다. 시각 확인이 필요한 단계는 사용자 위임으로 명시한다. S{M}-generator.md에 7항(Godot 산출 요약) 포함.
 ```
 
 **Evaluator 호출 (Phase 2-2):**
 ```
 ... sprint-evaluation/SKILL.md 외에 다음도 Read로 로드해라:
 - ${CLAUDE_PLUGIN_ROOT}/skills/godot-scene-handoff/SKILL.md
-- ${CLAUDE_PLUGIN_ROOT}/skills/godot-mcp-protocol/SKILL.md
-Playwright MCP 대신 Godot MCP + godot --headless로 독립 재현. 게임 전용 하드 임계값(크래시 0, 런타임 에러 0, Import 성공) 추가. 갭 발견 시 Evaluator도 G{N}.md 작성.
+또한 docs/kickoff/_meta.md를 먼저 읽어 project_type을 확인한다.
+Playwright 대신 `godot --headless` CLI + 텍스트 검증으로 독립 재현한다. 게임 전용 하드 임계값(크래시 0, 런타임 에러 0, Import 성공) 추가.
 ```
 
 ### 파일 구조 추가 (게임 프로젝트)
 ```
 docs/
-├── godot-mcp/
-│   ├── capability-matrix.md            # 사용자 유지
-│   └── gaps/
-│       ├── G1.md
-│       ├── G2.md
-│       └── ...
-├── assets/
-│   └── ai-capability-matrix.md         # 사용자 유지 (AI 생성 API 활성화 목록)
 └── build/F{N}/
     └── assets/
         ├── manifest.md                 # Generator (라이선스·출처)
-        └── prompts/                    # Generator (AI 생성 시)
+        └── prompts/                    # (선택) 사용자가 외부에서 가져온 에셋의 메모
             └── {name}.md
 ```
 
@@ -517,34 +509,8 @@ Playwright 대신:
 ### 게임 전용 테스트 시나리오
 
 **트리거:** "F2 구현 시작" (게임 프로젝트)
-1. Phase 0: why.md 헤더에서 게임 프로젝트 감지 → Planner prompt에 godot-* 스킬 로드 지시 포함
+1. Phase 0: `docs/kickoff/_meta.md`의 project_type(2D/3D) 감지 → Planner prompt에 godot-scene-handoff/asset-pipeline 스킬 로드 지시 포함
 2. Phase 1: Planner → product-spec.md (7항 Godot 설정 포함), S1-plan.md (7항 Godot 영향 포함)
-3. Phase 2-1: Generator → Godot MCP로 플레이어 씬 생성, 실패 시 headless/텍스트 fallback, 갭 리포트 G1 생성
-4. Phase 2-2: Evaluator → `godot --headless --quit-after 5 scenes/__dev/sprint_1_smoke.tscn` exit 0 확인, MCP로 플레이어 씬 로드하여 CharacterBody3D 존재 확인
+3. Phase 2-1: Generator → `.tscn`/`.gd` 텍스트 편집으로 플레이어 씬 작성, `godot --headless --import` smoke 통과, 시각 확인 필요한 부분은 사용자 위임
+4. Phase 2-2: Evaluator → `godot --headless --quit-after 5 scenes/__dev/sprint_1_smoke.tscn` exit 0 확인, `.tscn` 텍스트에서 차원별 노드(3D=CharacterBody3D / 2D=CharacterBody2D) 존재 확인
 5. PASS → 다음 스프린트
-
----
-
-## MCP 개선 트랙 (선택)
-
-Godot 게임 프로젝트에서는 Generator/Evaluator가 실행 중 `docs/godot-mcp/gaps/` 에 갭 리포트를 누적한다. 이것이 3개 이상 쌓이면 **MCP 개선 트랙**을 별도로 돌릴 수 있다.
-
-### MCP 개선 트랙 트리거
-사용자가 명시적으로 "MCP 갭 처리해줘", "godot-mcp 개선", "capability matrix 확장", "쌓인 gaps 처리" 같은 요청을 한 경우에만. 기본은 휴면.
-
-### MCP 개선 트랙 흐름 (미니 build-orchestrator)
-1. `docs/godot-mcp/gaps/G*.md` 목록 로드, 유사 갭은 하나로 묶기
-2. 제안 MCP API를 수집하여 작은 product-spec 격 문서 생성
-3. MCP 소스 저장소(사용자가 별도 관리)에 대해 Planner→Generator→Evaluator 파이프라인을 **재사용**
-   - 단, 대상 프로젝트 = MCP 저장소
-   - 컨벤션 = Node/TS 기반 MCP 서버 작성 규칙 (사용자가 `build-conventions`를 해당 저장소용으로 재작성)
-   - 테스트 = MCP 서버 단위 테스트 + Claude Code가 실제로 도구 호출해보는 통합 테스트
-4. PASS되면 `${CLAUDE_PLUGIN_ROOT}/skills/godot-mcp-protocol/references/capability-matrix.md` 갱신 (사용자 승인)
-5. 갭 리포트 G* 중 해결된 것은 `gaps/resolved/` 하위로 이동
-
-**중요:** MCP 개선 트랙은 **게임 프로젝트 진행과 분리된 별도 세션**으로 돌리는 것을 권장. 병행하면 게임 Generator가 "오늘은 되는데 어제는 안 되던" 혼란 발생.
-
-### 갭 관리 편의 명령 (오케스트레이터 내부)
-- "gaps 목록" → `ls docs/godot-mcp/gaps/G*.md`
-- "gaps 요약" → 각 갭 파일 G-제안 MCP API 줄만 추출해 테이블로 표시
-- "gap G3 resolved" → 사용자가 수동으로 해결했다고 표시 시 resolved/ 이동
