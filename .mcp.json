@@ -1,15 +1,3 @@
 {
-  "mcpServers": {
-    "godot": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_DATA}/godot-mcp/build/index.js"],
-      "env": {
-        "DEBUG": "false",
-        "READ_ONLY_MODE": "false"
-      }
-    },
-    "blender": {
-      "command": "blender-mcp"
-    }
-  }
+  "mcpServers": {}
 }
