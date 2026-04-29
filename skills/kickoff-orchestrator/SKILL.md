@@ -426,7 +426,7 @@ Phase B(Reviewer 게이트) 통과 후 C-1(병렬 feature-spec 생성) 이전에
 - F 번호 · ID(M0a/M0b/F1/F2...) · 이름
 - **완료 시 보이는 화면·플레이 한 줄** (동작·명사만 금지, 화면 결과로 기술)
 - 순서 + 의존
-- M0a(MCP 환경 검증) + M0b(Walking Skeleton) 행을 **항상 먼저** 포함 (코드 게임 F가 아니어도 마일스톤으로 나열)
+- M0a(환경 검증 — `godot --headless --import` + smoke 통과) + M0b(Walking Skeleton) 행을 **항상 먼저** 포함 (코드 게임 F가 아니어도 마일스톤으로 나열)
 
 #### C-0-2. 로드맵 제시
 Founder가 사용자에게 `_feature-list.md` 표(F 번호·이름·완료 시 화면·순서·의존) + 한 줄 설명 + "OK 또는 수정 코멘트 주세요" 안내. 텍스트 표 그대로 보여주거나 의존 관계를 ASCII 화살표로 보조.

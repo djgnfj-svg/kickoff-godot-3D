@@ -75,7 +75,7 @@ tools: ["*"]
 - 에셋 교체 스프린트는 **별도 Polish 스프린트**로 분리 (기능 스프린트와 혼합 금지)
 
 ### 에셋 태스크 테이블 (S{M}-plan.md)
-S{M}-plan.md의 에셋 태스크 테이블에는 `필요 도구` 컬럼을 두지 않거나, 두더라도 값은 "Godot 내장 primitive/ColorRect" 또는 "사용자 위임"만 사용한다. 외부 도구 호출(MCP 등) 신호는 기재하지 않는다.
+S{M}-plan.md의 에셋 태스크 테이블 `소스` 컬럼 값은 **"Godot 내장 primitive/ColorRect"** 또는 **"사용자 위임"** 둘 중 하나. 2단계 폴백 체인은 `asset-pipeline` 스킬 참조.
 
 ### 계약의 "자동 검증 훅" 게임용 기본 세트
 - `godot --headless --import` (exit 0)

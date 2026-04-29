@@ -1,6 +1,6 @@
 ---
 name: sprint-evaluation
-description: Evaluator 에이전트가 S{M}-generator.md를 독립 평가할 때 따르는 절차. 기능/빌드/테스트/설계/컨벤션/UI 6축 점검, 하드 임계값 판정, PASS/FAIL 결정, Generator에게 줄 피드백 포맷. "회의적 튠" 원칙을 강제한다. Playwright MCP 사용 가이드 포함.
+description: Evaluator 에이전트가 S{M}-generator.md를 독립 평가할 때 따르는 절차. 기능/빌드/테스트/설계/컨벤션 5축 점검, 하드 임계값 판정, PASS/FAIL 결정, Generator에게 줄 피드백 포맷. "회의적 튠" 원칙을 강제한다. 시각 확인은 Phase 2.7 사용자 검수로 위임.
 ---
 
 # Sprint Evaluation — Evaluator 작업 절차
@@ -49,25 +49,14 @@ Generator가 "통과"라고 써놨어도 **다시 실행**.
 
 S{M}-generator.md의 "AC 매핑"에 있는 각 AC의 재현 방법을 **Evaluator가 직접** 실행:
 
-- UI: Playwright MCP로 시나리오 재생 + 스크린샷 저장
-- API: curl/fetch로 요청 → 응답 확인
-- 배치/CLI: 명령 실행 → 출력 확인
+- 헤드리스 실행 가능 (smoke 씬·테스트): `godot --headless` 실행 → 종료코드·로그 확인
+- 자동 테스트 (GUT/GdUnit4): 테스트 스위트 실행 → 통과/실패 개수
+- 시각 확인 필요 (카메라 느낌·반응성·연출): Evaluator 판정 권한 없음 → USER_CHECK.md로 위임 표시
 
-하나라도 재현 실패 → **기능 완성도 축 ✗**.
+자동 재현 가능 항목 중 하나라도 실패 → **기능 완성도 축 ✗**.
+시각 확인 위임 항목은 §7.3 vs §0-B 책임 경계 (evaluator.md 참조)에 따라 Phase 2.7에서 사용자가 체크.
 
-### Step 4. Playwright MCP 활용 (UI 스프린트)
-
-UI가 있는 스프린트에서는 Playwright MCP로:
-1. S{M}-plan.md의 "자동 검증 훅" 중 Playwright 시나리오를 실행
-2. AC별로 스크린샷 1장씩 캡처, `docs/build/F{N}/sprints/screenshots/S{M}-AC{k}.png`로 저장
-3. 스크린샷을 보고 design.md 규칙 위반 점검 (간격·색·타이포)
-4. 키보드만으로 flow 재현 (accessibility.md의 키보드 규칙 검증)
-
-Playwright 연결 불가:
-- UI 축만 "검증 불가"로 표기, 다른 축은 평가 지속
-- 결과 `CONDITIONAL FAIL` — UI 재검증 후 최종 판정
-
-### Step 5. 컨벤션 4종 검증
+### Step 4. 컨벤션 4종 검증
 
 각 ACTIVE 도메인의 모든 규칙에 대해 "검증" 필드의 절차를 실행:
 
@@ -76,7 +65,7 @@ Playwright 연결 불가:
 
 "해당 없음" 도메인은 건너뛴다.
 
-### Step 6. 설계 충실도 점검
+### Step 5. 설계 충실도 점검
 
 product-spec.md의 "고수준 설계 결정"과 실제 구현 비교:
 
@@ -86,7 +75,7 @@ product-spec.md의 "고수준 설계 결정"과 실제 구현 비교:
 
 사유 없는 편차 → **설계 충실도 축 ✗**.
 
-### Step 7. 점수 매트릭스 + 판정
+### Step 6. 점수 매트릭스 + 판정
 
 핸드오프 #3 포맷의 "1. 기준별 점수" 표를 채운다. 하나라도 ✗ → **FAIL**.
 
@@ -95,7 +84,7 @@ product-spec.md의 "고수준 설계 결정"과 실제 구현 비교:
 - "어디서" — 파일:줄 또는 시나리오 이름
 - "왜 실패로 판정" — 계약의 어떤 항목 위반인지 인용
 
-### Step 8. Generator에게 피드백 (FAIL일 때만)
+### Step 7. Generator에게 피드백 (FAIL일 때만)
 
 재시도 시 Generator가 행동 가능한 수준으로:
 
@@ -103,7 +92,7 @@ product-spec.md의 "고수준 설계 결정"과 실제 구현 비교:
 - "피할 접근법": 회의적 관찰에서 "이 방향은 또 실패할 것"이라 판단되면 명시
 - 범위 밖 요구 금지: 계약에 없는 것을 피드백으로 추가하지 않는다 (체제 개선 제안으로 따로)
 
-### Step 9. (선택) 체제 개선 제안
+### Step 8. (선택) 체제 개선 제안
 
 Evaluator가 평가 중 발견한 구조적 개선점:
 - 컨벤션 references에 없는데 계속 등장하는 안티패턴

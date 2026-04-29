@@ -299,6 +299,6 @@ Niche Enforcer 거부 시 해당 문서만 고쳐서 재판정. 다른 문서는
 - why의 플레이어 원형 = what의 대상 플레이어 = how의 타깃 플랫폼·입력 가정
 - why의 코어 결핍 = what의 코어 버브가 해소하는 감정
 - what의 F1~FN **모두** 코어루프 4단계 중 하나 이상 지탱 (무관 Feature 금지)
-- how의 **M0a 완료 조건 = MCP 환경 검증(Godot+Blender 열림·smoke 통과)** + **M0b 완료 조건 = 코어 버브 1회 수행 가능** 둘 다 필수 포함
+- how의 **M0a 완료 조건 = 환경 검증(`godot --headless --import` 종료코드 0 + smoke 씬 헤드리스 실행 성공)** + **M0b 완료 조건 = 코어 버브 1회 수행 가능** 둘 다 필수 포함
 - why의 한 줄 카피 = 3층 훅 중 5초 훅의 요약과 정렬
 - what의 장르·플랫폼·시점이 how의 렌더러·InputMap·Physics Layers와 정합
