@@ -494,7 +494,7 @@ Scribe가 5종 + `_workspace/confirmed_*.md` + `_workspace/sellability_memo.md` 
 Scribe가 `_feature-list.md` + `how.md` + 모든 `F{N}/feature-spec.md`를 읽어 `docs/kickoff/PRD.md` 작성. **템플릿은 `agents/scribe.md`의 "Phase D 합본 산출물 → PRD.md" 섹션 참조.**
 
 - 마일스톤별 walkthrough: M0 → F1 → ... → FN (M0 시작 전 사전 게이트 명시)
-- 각 마일스톤 행에 **동작 기준 + 자동 테스트(§7.3 요약, 상세는 링크) + 사용자 검수(USER_CHECK.md 참조)** 3축 명시
+- 각 마일스톤 행에 **동작 기준 + 자동 테스트(§7.4 요약, 상세는 링크) + 사용자 검수(USER_CHECK.md 참조)** 3축 명시
 - 비주얼 완성도 축 도입하지 않음 (사용자 결정)
 - 기술 통합 리스트 + 공통 누락 점검은 `_feature-list.md`에서 그대로 인용
 - 헤더에 **"파생 뷰 — 직접 편집 금지"** 명시

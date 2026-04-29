@@ -54,7 +54,7 @@ S{M}-generator.md의 "AC 매핑"에 있는 각 AC의 재현 방법을 **Evaluato
 - 시각 확인 필요 (카메라 느낌·반응성·연출): Evaluator 판정 권한 없음 → USER_CHECK.md로 위임 표시
 
 자동 재현 가능 항목 중 하나라도 실패 → **기능 완성도 축 ✗**.
-시각 확인 위임 항목은 §7.3 vs §0-B 책임 경계 (evaluator.md 참조)에 따라 Phase 2.7에서 사용자가 체크.
+시각 확인 위임 항목은 §7.4 vs §0-B 책임 경계 (evaluator.md 참조)에 따라 Phase 2.7에서 사용자가 체크.
 
 ### Step 4. 컨벤션 4종 검증
 

@@ -9,7 +9,7 @@ Planner 에이전트의 작업 표준. `build-handoff` 스킬의 핸드오프 #1
 
 ## 입력
 - **`docs/features/_feature-list.md` (FROZEN)** — ★ Kickoff C-0에서 확정된 Feature 목록 + 확인 체크리스트 + **기술 통합 리스트** + 공통 누락 점검. **입력 계약**으로 읽음 (뒤집기 금지)
-- **`docs/features/F{N}/feature-spec.md`** — 이 F의 상세 (§0-A·§0-B·§3·§4·§7.3·§9·§10 등)
+- **`docs/features/F{N}/feature-spec.md`** — 이 F의 상세 (§0-A·§0-B·§3·§4·§7.4·§9·§10 등)
 - `docs/kickoff/{why,what,how}.md` — 맥락
 - 사용자 프로젝트 루트의 기존 설정 파일 — 컨벤션 채우기용
 
@@ -40,8 +40,11 @@ Planner 에이전트의 작업 표준. `build-handoff` 스킬의 핸드오프 #1
 | 0-B | 확인 체크리스트 3~5개 | 필수 — Phase 2.7 USER_CHECK.md로 인입 |
 | 3 | 코어루프 기여 (4단계 중 1+개 체크) | 필수 — 스프린트 경계 판단 |
 | 4 | 코어 버브 구현 측면 | 필수 — 스프린트 분류 |
-| 7.3 | 수용 기준 Given/When/Then | 필수 — Evaluator 자동 테스트 변환 |
-| 9 | Godot 계약 (씬·스크립트·Autoload·Physics Layers·InputMap) | 필수 — 구현 구체성 |
+| 7.3 | §0-B ↔ AC 매핑 표 | 필수 — Phase 2.7 자동/사용자 분류 |
+| 7.4 | 수용 기준 Given/When/Then | 필수 — Evaluator 자동 테스트 변환 |
+| 9.1 | 씬 트리 구조 (코드 블록) | 필수 — Generator의 .tscn 작성 기준 |
+| 9.6 | 데이터 스키마 (.tres) | 조건부 — AC에 밸런싱 수치 등장 시 필수 |
+| 9 (기타) | Autoload·Physics Layers·InputMap | 필수 — 구현 구체성 |
 | 10 | 의존성 (선행 F, 에디터/도구 의존) | 필수 — 스프린트 순서 |
 | 11 | 관측성 | 권장 — Evaluator 계측 검증 |
 | 12 | 실패 모드 | 권장 — Evaluator 체크 |
@@ -49,7 +52,7 @@ Planner 에이전트의 작업 표준. `build-handoff` 스킬의 핸드오프 #1
 
 **필수 섹션 중 하나라도 비었거나 내용 부실(예: "TBD", 빈 리스트)이면 Planner는 반송** — 오케스트레이터에 "F{N} feature-spec 불완전. Kickoff C-0 재소집 필요. 누락 섹션: §X, §Y" 보고.
 
-**§0-B ↔ §7.3 매칭 검증:** §0-B 각 항목에 대해 §7.3 Given/When/Then 1개+ 매칭 있는지 확인. 매칭 없는 §0-B 항목은 "Phase 2.7 사용자 검수 전용"으로 Planner가 분류 (자동 테스트로는 커버 불가).
+**§0-B ↔ §7.4 매칭 검증:** §0-B 각 항목에 대해 §7.4 Given/When/Then 1개+ 매칭 있는지 확인. 매칭 없는 §0-B 항목은 "Phase 2.7 사용자 검수 전용"으로 Planner가 분류 (자동 테스트로는 커버 불가).
 
 ## 산출물
 1. `docs/build/F{N}/product-spec.md` (1개)

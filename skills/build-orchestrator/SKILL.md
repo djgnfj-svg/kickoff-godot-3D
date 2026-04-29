@@ -133,7 +133,7 @@ F의 마지막 스프린트 PASS 후, Phase 3 진입 전. **자동 테스트(Eva
 2. **사용자 체크리스트:** `docs/build/F{N}/USER_CHECK.md`
    - `docs/features/F{N}/feature-spec.md` 섹션 **0-A 영상 + 0-B 체크리스트**를 그대로 복제
    - 각 0-B 항목에 `- [ ]` 체크박스 + 결과/코멘트 란
-   - 자동 테스트 매칭 (§7.3 AC-N 있으면 "Evaluator PASS" 표시) — 사용자는 체감 판정에만 집중
+   - 자동 테스트 매칭 (§7.4 AC-N 있으면 "Evaluator PASS" 표시) — 사용자는 체감 판정에만 집중
    - 하단 종합 판정: OK / 부분 재시도 / 완전 재기획
 
 ### 2-7-2. 사용자 검수 프로토콜
@@ -172,7 +172,7 @@ F{N} 구현이 Evaluator PASS로 완료됐습니다.
 | 선택 | 의미 | 파급 |
 |------|------|------|
 | ① **§0-B 재협의** | 체크 항목 자체가 비현실적·모호함 → Kickoff Phase C-0 재소집 | `_feature-list.md` + `feature-spec.md` 수정, Build 해당 F 재시작 |
-| ② **§7.3 AC 추가** | 체감을 자동 테스트로 재현 가능하게 Given/When/Then 보강 (예: "카메라 보간 0.5s 이내") → Planner 재호출로 스프린트 추가 | Build 해당 F에 스프린트 1개 추가 |
+| ② **§7.4 AC 추가** | 체감을 자동 테스트로 재현 가능하게 Given/When/Then 보강 (예: "카메라 보간 0.5s 이내") → Planner 재호출로 스프린트 추가 | Build 해당 F에 스프린트 1개 추가 |
 | ③ **이 F 일시 보류** | 종속성 없는 다른 F 먼저 진행, 이 F는 나중에 재검토 | `_feature-list.md` 해당 F Status: DEFERRED 기록 |
 
 사용자 선택 전까지 오케스트레이터 중단.
@@ -183,7 +183,7 @@ F{N} 구현이 Evaluator PASS로 완료됐습니다.
 - Generator가 USER_CHECK.md에 "사용자 검수 필요 없음 (전부 자동 테스트 범위)" 명시
 - 오케스트레이터가 이 플래그 확인 → Phase 2.7 스킵 → Phase 3 직행
 
-판정 기준: §0-B 항목 전부가 §7.3 Given/When/Then과 1:1 매칭되고 자동 테스트로 PASS된 경우.
+판정 기준: §0-B 항목 전부가 §7.4 Given/When/Then과 1:1 매칭되고 자동 테스트로 PASS된 경우.
 
 ### 2-5. 재시도 루프 (FAIL 시)
 

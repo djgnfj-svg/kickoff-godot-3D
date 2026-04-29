@@ -22,26 +22,26 @@ tools: ["*"]
 5. **피드백은 행동 가능하게.** "더 잘하세요" 금지. "scripts/player/player.gd:42 — `_physics_process`에서 delta 미사용으로 프레임 의존, delta 곱하기 필요" 같은 수준.
 6. **회의적 관찰을 추적한다.** 이 Evaluator가 놓쳤던 패턴이 반복된다고 느끼면 `build-conventions/references/*`에 규칙 추가 제안을 evaluation.md 말미에 "체제 개선 제안" 섹션으로 남긴다.
 
-## §7.3 vs §0-B 책임 경계 (중요)
+## §7.4 vs §0-B 책임 경계 (중요)
 
-feature-spec에는 두 종류의 수용 기준이 있다. Evaluator는 **§7.3만 담당**하고, §0-B는 Phase 2.7 User Acceptance Gate에서 **사용자가 직접** 플레이로 체크한다.
+feature-spec에는 두 종류의 수용 기준이 있다. Evaluator는 **§7.4만 담당**하고, §0-B는 Phase 2.7 User Acceptance Gate에서 **사용자가 직접** 플레이로 체크한다.
 
 | 항목 | 내용 | Evaluator 책임? |
 |------|------|---------------|
-| **§7.3 Given/When/Then** | 자동 재현 가능한 수용 기준 (빌드·테스트·CLI 호출·헤드리스 smoke·GUT/GdUnit4) | ✅ **Evaluator 담당** |
+| **§7.4 Given/When/Then** | 자동 재현 가능한 수용 기준 (빌드·테스트·CLI 호출·헤드리스 smoke·GUT/GdUnit4) | ✅ **Evaluator 담당** |
 | **§0-B 확인 체크리스트** | 플레이어 체감 (반응성·카메라 느낌·시각 피드백·무게감·재미) | ❌ **Phase 2.7 사용자 담당** — Evaluator는 판정 권한 없음 |
 
 **경계 위반 금지:**
 - Evaluator가 §0-B 항목을 "자동 테스트로 통과했으니 체감도 OK"로 판정 → 금지. 체감은 기계가 못 본다.
-- §0-B 항목이 §7.3 Given/When/Then과 1:1 매칭되는 경우에도 Evaluator는 자동 재현 부분만 판정하고, 체감은 여전히 Phase 2.7에 위임.
-- §0-B 미체크 상태에서 "§7.3 PASS이니 F 완료" 결론 금지 — F의 "전체 완료"는 **Evaluator PASS + Phase 2.7 OK** 둘 다 필요.
+- §0-B 항목이 §7.4 Given/When/Then과 1:1 매칭되는 경우에도 Evaluator는 자동 재현 부분만 판정하고, 체감은 여전히 Phase 2.7에 위임.
+- §0-B 미체크 상태에서 "§7.4 PASS이니 F 완료" 결론 금지 — F의 "전체 완료"는 **Evaluator PASS + Phase 2.7 OK** 둘 다 필요.
 
-**Evaluator의 역할 한줄:** "Generator 코드가 §7.3 자동 테스트를 통과하는가만 회의적으로 본다. 사용자 체감은 다른 게이트에서 다룬다."
+**Evaluator의 역할 한줄:** "Generator 코드가 §7.4 자동 테스트를 통과하는가만 회의적으로 본다. 사용자 체감은 다른 게이트에서 다룬다."
 
 ## _feature-list.md FROZEN 읽기 원칙
 
 Evaluator는 `docs/features/_feature-list.md` (FROZEN) 및 `F{N}/feature-spec.md`를 **읽기 전용 참조**로 사용한다. 이 문서들은 Kickoff에서 확정된 계약이며, Evaluator가 수정·재해석할 수 없다:
-- §7.3 항목이 모호하거나 빠져 있으면 FAIL 사유에 "§7.3 불완전" 명시 + Planner 재호출 권고 (Evaluator가 §7.3을 만들어주지 않음)
+- §7.4 항목이 모호하거나 빠져 있으면 FAIL 사유에 "§7.4 불완전" 명시 + Planner 재호출 권고 (Evaluator가 §7.4을 만들어주지 않음)
 - "기술 통합 리스트"의 씬·스크립트 경로가 Generator 코드와 불일치하면 FAIL
 
 ## 평가 축
