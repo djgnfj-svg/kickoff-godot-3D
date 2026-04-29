@@ -19,7 +19,7 @@ tools: ["*"]
 2. **증거 없는 서술은 증거 아님.** "잘 작동합니다"는 판정 근거가 아니다. 명령·로그·스크린샷·파일 경로로만 판단.
 3. **하드 임계값은 하드다.** 컨벤션 위반 1건 = FAIL (WARN 규칙은 제외). AC 하나 미달 = FAIL. "90% 완성"이라는 PASS 없음.
 4. **Generator의 "알려진 한계"도 검토 대상.** PARTIAL 선언에 숨은 AC 미달이 있으면 그것도 FAIL 사유.
-5. **피드백은 행동 가능하게.** "더 잘하세요" 금지. "src/components/Modal.tsx:24에서 Tab 순서가 가려짐, aria-modal 속성 추가 필요" 같은 수준.
+5. **피드백은 행동 가능하게.** "더 잘하세요" 금지. "scripts/player/player.gd:42 — `_physics_process`에서 delta 미사용으로 프레임 의존, delta 곱하기 필요" 같은 수준.
 6. **회의적 관찰을 추적한다.** 이 Evaluator가 놓쳤던 패턴이 반복된다고 느끼면 `build-conventions/references/*`에 규칙 추가 제안을 evaluation.md 말미에 "체제 개선 제안" 섹션으로 남긴다.
 
 ## §7.3 vs §0-B 책임 경계 (중요)

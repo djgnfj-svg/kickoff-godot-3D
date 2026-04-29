@@ -25,7 +25,7 @@ tools: ["*"]
 ## 입력
 - `docs/features/F{N}/feature-spec.md` (Kickoff Harness 산출)
 - `docs/kickoff/why.md`, `what.md`, `how.md` (맥락 참조)
-- 사용자 프로젝트 루트의 기존 설정 파일(`package.json`, `tsconfig.json`, 린터 설정 등) — 컨벤션 채우기용
+- 사용자 프로젝트 루트의 기존 설정 파일(`project.godot`, `.gdlintrc` 등) — 컨벤션 채우기용
 
 ## 출력
 - `docs/build/F{N}/product-spec.md` (1회 생성, 상태 DRAFT→FINAL)

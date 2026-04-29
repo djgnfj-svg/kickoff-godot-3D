@@ -8,5 +8,5 @@
   "homepage": "https://github.com/djgnfj-svg/kickoff-godot-3D",
   "repository": "https://github.com/djgnfj-svg/kickoff-godot-3D",
   "license": "MIT",
-  "keywords": ["godot", "game-dev", "harness", "kickoff", "build-pipeline", "mcp"]
+  "keywords": ["godot", "game-dev", "harness", "kickoff", "build-pipeline", "2d", "3d"]
 }
